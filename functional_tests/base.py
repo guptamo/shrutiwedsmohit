@@ -25,3 +25,4 @@ class BaseTest(StaticLiveServerTestCase):
 
     def tearDown(self):
         self.browser.quit()
+
