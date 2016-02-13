@@ -18,10 +18,10 @@ class AdminFunctionsTests(TestCase):
         self.admin.delete()
 
     def test_admin_login_redirect(self):
-        response = self.client.get('/admin-redirect/')
+        response = self.client.get('/login/admin-redirect/')
         self.assertRedirects(
             response,
-            expected_url="/add-invitation/")
+            expected_url="/login/add-invitation/")
 
 
 class GuestFunctionsTests(TestCase):
@@ -40,7 +40,7 @@ class GuestFunctionsTests(TestCase):
         self.guest.delete()
 
     def test_guest_login_redirect(self):
-        response = self.client.get("/admin-redirect/")
+        response = self.client.get("/login/admin-redirect/")
         self.assertRedirects(
             response,
             expected_url="/invitation/")

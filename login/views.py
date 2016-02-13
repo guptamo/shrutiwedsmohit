@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 
 def admin_redirect(request):
     if request.user.is_staff:
-        return redirect(reverse("login:add_invitation"))
+        return redirect(reverse("add_invitation"))
     else:
         return redirect(reverse("invitation:invitation"))
 

@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title> Login | Shruti and Mohit's Wedding Site</title>
-    </head>
-    <body>
-        <h1>TEST</h1>
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+    <h1>Login</h1>
         {% if form.errors %}
             <p>Your username and password didn't match. Please try again.</p>
         {% endif %}
@@ -34,5 +33,4 @@
             <input type="submit" value="login" id="login"/>
             <input type="hidden" name="next" value="{{ next }}" />
         </form>
-    </body>
-</html>
+{% endblock content %}

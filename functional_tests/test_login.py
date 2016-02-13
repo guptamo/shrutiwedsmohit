@@ -18,7 +18,9 @@ class AdministratorTests(BaseTest):
         # in to the beautiful website.
 
         self.browser.get(self.server_url)
-        self.assertIn('Login', self.browser.title)
+        self.assertIn(
+            "Login | Shruti and Mohit's Wedding Site",
+            self.browser.title)
 
         # Mohit confirms he's on the right page and is delighted to see Login,
         # in big bold letters. He enters his admin username and password and
@@ -51,14 +53,16 @@ class GuestTests(BaseTest):
         # and types in the url on the invite.
 
         self.browser.get(self.server_url)
-        self.assertIn('Login', self.browser.title)
+        self.assertIn(
+            "Login | Shruti and Mohit's Wedding Site",
+            self.browser.title)
 
         # Sonnika has been working on her typing skills and gets the url right
         # on the first try without crying. She enters all the login information
         # that is on the invite and crosses her fingers.
 
         self.browser.find_element_by_id('id_username').send_keys('guest')
-        self.browser.find_element_by_id('id_password').send_keys('admin')
+        self.browser.find_element_by_id('id_password').send_keys('guest')
         self.browser.find_element_by_id('login').click()
 
         # Success! She's a winner and sees that she actually is invited. She is
