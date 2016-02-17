@@ -20,10 +20,9 @@ from django.contrib.auth.views import login
 urlpatterns = [
     url(r'^$',
         login,
-        {"template_name": "login/login.html",
-            "extra_context": {"next": "login/admin-redirect/"}},
+        {"template_name": "invitation/login.html",
+            "extra_context": {"next": "invitation/admin-redirect/"}},
         name="login"),
-    url(r'^login/', include("login.urls")),
     url(r'^invitation/', include("invitation.urls", namespace="invitation")),
     url(r'^admin/', admin.site.urls),
 ]

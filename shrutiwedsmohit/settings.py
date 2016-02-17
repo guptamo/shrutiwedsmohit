@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # First Part App
-    'login',
+    'invitation',
 ]
 
 MIDDLEWARE_CLASSES = [
