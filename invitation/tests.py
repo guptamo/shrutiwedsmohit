@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User as Invitation
+from django.core.urlresolvers import reverse
 
 
 class AdminFunctionsTests(TestCase):
@@ -18,10 +19,10 @@ class AdminFunctionsTests(TestCase):
         self.admin.delete()
 
     def test_admin_login_redirect(self):
-        response = self.client.get('/invitation/admin-redirect/')
+        response = self.client.get(reverse("login"))
         self.assertRedirects(
             response,
-            expected_url="/invitation/add-invitation/")
+            expected_url=reverse("invitation:dashboard"))
 
 
 class GuestFunctionsTests(TestCase):
@@ -40,7 +41,7 @@ class GuestFunctionsTests(TestCase):
         self.guest.delete()
 
     def test_guest_login_redirect(self):
-        response = self.client.get("/invitation/admin-redirect/")
+        response = self.client.get(reverse("login"))
         self.assertRedirects(
             response,
-            expected_url="/invitation/")
+            expected_url=reverse("invitation:invitation"))

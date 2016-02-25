@@ -1,17 +1,21 @@
 from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
 
 
-def invitation(request):
-    return render(request, "invitation/invitation.html")
-
-
-def admin_redirect(request):
+@login_required
+def login_redirect(request):
     if request.user.is_staff:
-        return redirect(reverse("invitation:add_invitation"))
+        return redirect(reverse("invitation:dashboard"))
     else:
         return redirect(reverse("invitation:invitation"))
 
 
-def add_invitation(request):
-    return render(request, "invitation/add-invitation.html")
+@login_required
+def invitation(request):
+    return render(request, "invitation/invitation.html")
+
+
+@login_required
+def dashboard(request):
+    return render(request, "invitation/dashboard.html")

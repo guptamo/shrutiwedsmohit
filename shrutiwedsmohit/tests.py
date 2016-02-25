@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.core.urlresolvers import resolve
-from django.contrib.auth.views import login
+from . import views
 
 
 class SmokeTest(TestCase):
@@ -17,7 +17,7 @@ class HomePageTest(TestCase):
     def test_login_url_routing(self):
         # login url is at root hence "/"
         route = resolve("/")
-        self.assertEqual(route.func, login)
+        self.assertEqual(route.func, views.login)
 
     def test_login_template_loading(self):
         response = self.client.get("/")

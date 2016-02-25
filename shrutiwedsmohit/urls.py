@@ -15,14 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth.views import login
+from . import views
+
 
 urlpatterns = [
-    url(r'^$',
-        login,
-        {"template_name": "invitation/login.html",
-            "extra_context": {"next": "invitation/admin-redirect/"}},
-        name="login"),
+    url(r'^$', views.login, name="login"),
     url(r'^invitation/', include("invitation.urls", namespace="invitation")),
     url(r'^admin/', admin.site.urls),
 ]

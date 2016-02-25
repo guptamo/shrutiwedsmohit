@@ -1,8 +1,8 @@
-from .base import BaseTest
+from . import base
 from django.contrib.auth.models import User as Invitation
 
 
-class AdministratorTests(BaseTest):
+class AdministratorTests(base.BaseTest):
 
     def setUp(self):
         super().setUp()
@@ -33,11 +33,10 @@ class AdministratorTests(BaseTest):
         # Mohit is happy to see that his Django app hasn't broken yet. The
         # page title says add invitation and he's exactly where he needs to
         # be.
+        self.assertIn("Dashboard", self.browser.title)
 
-        self.assertIn("Add Invitation", self.browser.title)
 
-
-class GuestTests(BaseTest):
+class GuestTests(base.BaseTest):
 
     def setUp(self):
         super().setUp()

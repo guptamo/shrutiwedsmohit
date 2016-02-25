@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.invitation, name="invitation"),
-    url(r'admin-redirect/$', views.admin_redirect, name="admin_redirect"),
-    url(r'add-invitation/$', views.add_invitation, name="add_invitation"),
+    url(r'login-redirect/$', views.login_redirect, name="login_redirect"),
+    url(r'dashboard/$', views.dashboard, name="dashboard"),
 ]
