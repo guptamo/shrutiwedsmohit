@@ -16,7 +16,6 @@ class AdministratorTests(base.BaseTest):
         # Surprise surprise! We have more guests coming! Mohit would like to
         # create a new invitation to allow his *ahem* beloved guest could log
         # in to the beautiful website.
-
         self.browser.get(self.server_url)
         self.assertIn(
             "Login | Shruti and Mohit's Wedding Site",
@@ -25,7 +24,6 @@ class AdministratorTests(base.BaseTest):
         # Mohit confirms he's on the right page and is delighted to see Login,
         # in big bold letters. He enters his admin username and password and
         # clicks login to be brought to the add invitation page.
-
         self.browser.find_element_by_id('id_username').send_keys('admin')
         self.browser.find_element_by_id('id_password').send_keys('admin')
         self.browser.find_element_by_id('login').click()
@@ -35,6 +33,19 @@ class AdministratorTests(base.BaseTest):
         # be.
         self.assertIn("Dashboard", self.browser.title)
 
+        # Mohit needs to add an invitation for the Pandey family. He finds the
+        # invitation name box and types pandey. The page refreshes and displays
+        # the invitation name and password in big letters on the screen.
+        self.browser.find_element_by_id("invitation_box").send_keys("pandey")
+        self.browser.find_element_by_id("invite").click()
+        invitation_name = self.browser.find_element_by_id("invitation_name")
+        assert "pandey" in invitation_name
+        password = self.browser.find_element_by_id("password")
+        assert "144525" in password
+
+        # He notices a link to see the invitation page which will allow him to
+        # add guests to the invitation. Why not!
+        self.browser.find_element_by_id("pandey_invite").click()
 
 class GuestTests(base.BaseTest):
 

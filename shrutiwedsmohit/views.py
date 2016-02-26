@@ -1,5 +1,4 @@
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.views import login as actual_login
 from invitation.views import login_redirect
 from django.shortcuts import render
