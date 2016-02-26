@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-from . import secrets
+from .secrets import secrets
+from .secrets import database
 from django.core.urlresolvers import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -79,16 +80,7 @@ WSGI_APPLICATION = 'shrutiwedsmohit.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'shrutiwedsmohit',
-        'USER': 'moadmin',
-        'PASSWORD': 'C00lm03d!',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+DATABASES = database.DATABASES
 
 
 # Password validation
