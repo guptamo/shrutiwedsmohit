@@ -18,6 +18,7 @@ class Guest(models.Model):
         (NON_VEG, "Non-vegetarian"),)
 
     name = models.CharField(max_length=40)
+    invitation = models.ForeignKey(Invitation, null=True, blank=True)
     invited_by = models.CharField(max_length=5, choices=INVITED_BY_CHOICES)
     invited_sangeet = models.BooleanField(default=False)
     invited_ceremony = models.BooleanField(default=False)
@@ -32,5 +33,5 @@ class Guest(models.Model):
         verbose_name = 'Guest'
         verbose_name_plural = 'Guests'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

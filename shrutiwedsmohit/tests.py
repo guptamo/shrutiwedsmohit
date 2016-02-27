@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from django.core.urlresolvers import resolve
+from django.core.urlresolvers import resolve, reverse
 from . import views
 
 
@@ -16,10 +16,10 @@ class HomePageTest(TestCase):
 
     def test_login_url_routing(self):
         # login url is at root hence "/"
-        route = resolve("/")
+        route = resolve(reverse("login"))
         self.assertEqual(route.func, views.login)
 
     def test_login_template_loading(self):
-        response = self.client.get("/")
+        response = self.client.get(reverse("login"))
         self.assertIn(b'<title>Login', response.content)
         self.assertTrue(response.content.endswith(b'</html>'))

@@ -9,7 +9,6 @@ def login(request):
         return actual_login(
             request,
             template_name="invitation/login.html",
-            extra_context={
-                "next": reverse_lazy("invitation:login_redirect")})
+            extra_context={"next": reverse_lazy("invitation:login_redirect")})
     else:
         return login_redirect(request)

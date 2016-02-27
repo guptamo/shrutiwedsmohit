@@ -2,6 +2,8 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User as Invitation
 from django.core.urlresolvers import reverse
 from .models import Guest
+from .forms import GuestForm
+from unittest import skip
 
 
 class AdminFunctionsTests(TestCase):
@@ -24,6 +26,21 @@ class AdminFunctionsTests(TestCase):
         self.assertRedirects(
             response,
             expected_url=reverse("invitation:dashboard"))
+
+    @skip
+    def test_invitation_form(self):
+        form = InvitationForm({"name": "gupta"})
+        self.assertTrue(form.is_valid)
+
+    @skip
+    def test_add_invitation_form_in_context(self):
+        reponse = self.client.get(reverse("login"))
+        self.assertContains(response.context["form"], InvitationForm)
+
+    @skip
+    def test_admin_logout(self):
+        reponse = self.client.get(reverse("logout"))
+
 
 
 class GuestFunctionsTests(TestCase):
@@ -48,6 +65,7 @@ class GuestFunctionsTests(TestCase):
             expected_url=reverse("invitation:invitation"))
 
     def test_guest_cannot_access_dashboard(self):
+        print(self.guest.username)
         response = self.client.get(reverse("invitation:dashboard"))
         self.assertRedirects(
             response,
@@ -69,6 +87,8 @@ class GuestModelTests(TestCase):
                 name="Some Dummy",
                 invited_by="gupta")
             self.invitation = Invitation.objects.create()
+            self.guest.invitation = self.invitation
+            self.guest.save()
 
         def tearDown(self):
             self.guest.delete()
@@ -83,6 +103,12 @@ class GuestModelTests(TestCase):
                 self.assertFalse(getattr(self.guest, field))
             self.assertEqual(self.guest.meal_choice, "")
             self.assertEqual(self.guest.note, "")
+            self.assertEqual(self.guest.invitation, self.invitation)
 
-        def test_unicode_function(self):
-            self.assertEqual(self.guest.__unicode__(), "Some Dummy")
+        def test_str_function(self):
+            self.assertEqual(self.guest.__str__(), "Some Dummy")
+
+        def test_guest_form(self):
+            form = GuestForm({})
+            self.assertTrue(form.is_bound)
+            self.assertTrue(form.is_valid)
