@@ -1,15 +1,16 @@
 from django.test import TestCase, Client
-from django.contrib.auth.models import User as Invitation
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from .models import Guest
-from .forms import GuestForm
+from .models import Guest, Invitation
+from .forms import GuestForm, InvitationForm
+from .views import password_generator
 from unittest import skip
 
 
-class AdminFunctionsTests(TestCase):
+class AdminBaseTest(TestCase):
 
     def setUp(self):
-        self.admin = Invitation.objects.create_superuser(
+        self.admin = User.objects.create_superuser(
             username="admin",
             email="admin@hotmail.com",
             password="admin")
@@ -21,32 +22,11 @@ class AdminFunctionsTests(TestCase):
     def tearDown(self):
         self.admin.delete()
 
-    def test_admin_login_redirect(self):
-        response = self.client.get(reverse("login"))
-        self.assertRedirects(
-            response,
-            expected_url=reverse("invitation:dashboard"))
 
-    @skip
-    def test_invitation_form(self):
-        form = InvitationForm({"name": "gupta"})
-        self.assertTrue(form.is_valid)
-
-    @skip
-    def test_add_invitation_form_in_context(self):
-        reponse = self.client.get(reverse("login"))
-        self.assertContains(response.context["form"], InvitationForm)
-
-    @skip
-    def test_admin_logout(self):
-        reponse = self.client.get(reverse("logout"))
-
-
-
-class GuestFunctionsTests(TestCase):
+class GuestBaseTest(TestCase):
 
     def setUp(self):
-        self.guest = Invitation.objects.create_user(
+        self.guest = User.objects.create_user(
             username="guest",
             email="guest@hotmail.com",
             password="guest")
@@ -58,57 +38,79 @@ class GuestFunctionsTests(TestCase):
     def tearDown(self):
         self.guest.delete()
 
-    def test_guest_login_redirect(self):
-        response = self.client.get(reverse("login"))
-        self.assertRedirects(
-            response,
-            expected_url=reverse("invitation:invitation"))
 
-    def test_guest_cannot_access_dashboard(self):
-        print(self.guest.username)
-        response = self.client.get(reverse("invitation:dashboard"))
-        self.assertRedirects(
-            response,
-            expected_url=reverse("invitation:invitation"))
+class AdminFunctionsTests(AdminBaseTest):
+    pass
+
+
+class GuestFunctionsTests(GuestBaseTest):
+    pass
 
 
 class GuestModelTests(TestCase):
 
-        def setUp(self):
-            self.boolean_fields = [
-                "invited_sangeet",
-                "invited_reception",
-                "invited_ceremony",
-                "attending_sangeet",
-                "attending_reception",
-                "attending_ceremony"]
+    def setUp(self):
+        self.boolean_fields = [
+            "attending_sangeet",
+            "attending_reception",
+            "attending_ceremony"]
 
-            self.guest = Guest.objects.create(
-                name="Some Dummy",
-                invited_by="gupta")
-            self.invitation = Invitation.objects.create()
-            self.guest.invitation = self.invitation
-            self.guest.save()
+        self.guest = Guest.objects.create(name="Some Dummy")
+        self.invitation = Invitation.objects.create()
+        self.guest.invitation = self.invitation
+        self.guest.save()
 
-        def tearDown(self):
-            self.guest.delete()
+    def tearDown(self):
+        self.guest.delete()
 
-        def test_guest_model_save(self):
-            self.assertEqual(Guest.objects.count(), 1)
+    def test_guest_model_save(self):
+        self.assertEqual(Guest.objects.count(), 1)
 
-        def test_guest_model_save_defaults(self):
-            self.assertEqual(self.guest.name, "Some Dummy")
-            self.assertEqual(self.guest.invited_by, "gupta")
-            for field in self.boolean_fields:
-                self.assertFalse(getattr(self.guest, field))
-            self.assertEqual(self.guest.meal_choice, "")
-            self.assertEqual(self.guest.note, "")
-            self.assertEqual(self.guest.invitation, self.invitation)
+    def test_guest_model_save_defaults(self):
+        self.assertEqual(self.guest.name, "Some Dummy")
+        for field in self.boolean_fields:
+            self.assertFalse(getattr(self.guest, field))
+        self.assertEqual(self.guest.meal_choice, "")
+        self.assertEqual(self.guest.note, "")
+        self.assertEqual(self.guest.invitation, self.invitation)
 
-        def test_str_function(self):
-            self.assertEqual(self.guest.__str__(), "Some Dummy")
+    def test_str_function(self):
+        self.assertEqual(self.guest.__str__(), "Some Dummy")
 
-        def test_guest_form(self):
-            form = GuestForm({})
-            self.assertTrue(form.is_bound)
-            self.assertTrue(form.is_valid)
+    def test_guest_form(self):
+        form = GuestForm({})
+        self.assertTrue(form.is_bound)
+        self.assertTrue(form.is_valid)
+
+
+class InvitationModelTests(AdminBaseTest):
+
+    def test_add_invitation_form_in_dashboard_context(self):
+        response = self.client.get(reverse("invitation:dashboard"))
+        self.assertIsInstance(response.context['form'], InvitationForm)
+
+    def test_posting_to_add_invitation_view(self):
+        data = {
+            "name": "schmoe",
+            "invited_by": "gupta",
+            "invited_sangeet": False,
+            "invited_ceremony": False,
+            "invited_reception": False,}
+
+        response = self.client.post(reverse("invitation:add_invitation"), data)
+        self.assertRedirects(response, reverse("invitation:dashboard"))
+
+    def test_password_generator(self):
+        self.assertEqual(password_generator("michael"), "270411")
+
+    def test_add_invitation_view_creates_invitation_objects(self):
+        data = {
+            "name": "michael",
+            "invited_by": "gupta",
+            "invited_sangeet": False,
+            "invited_ceremony": False,
+            "invited_reception": False,}
+
+        response = self.client.post(reverse("invitation:add_invitation"), data)
+        self.assertEqual(Invitation.objects.count(), 1)
+        self.assertEqual(User.objects.count(), 2)

@@ -1,5 +1,17 @@
 from django.forms import ModelForm
-from .models import Guest
+from .models import Guest, Invitation
+
+
+class InvitationForm(ModelForm):
+
+    class Meta:
+        model = Invitation
+        fields = [
+            "name",
+            "invited_by",
+            "invited_sangeet",
+            "invited_ceremony",
+            "invited_reception"]
 
 class GuestForm(ModelForm):
 
@@ -7,10 +19,6 @@ class GuestForm(ModelForm):
         model = Guest
         fields = [
             "name",
-            "invited_by",
-            "invited_sangeet",
-            "invited_ceremony",
-            "invited_reception",
             "attending_sangeet",
             "attending_ceremony",
             "attending_reception",

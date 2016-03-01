@@ -1,17 +1,34 @@
 from django.db import models
-from django.contrib.auth.models import User as Invitation
+from django.contrib.auth.models import User
 
 
-# Create your models here.
-class Guest(models.Model):
+class Invitation(models.Model):
     VERMA = "verma"
     GUPTA = "gupta"
-    VEG = "veg"
-    NON_VEG = "non-veg"
 
     INVITED_BY_CHOICES = (
         (VERMA, "Verma Family"),
         (GUPTA, "Gupta Family"),)
+
+    user = models.OneToOneField(User, null=True, blank=True)
+    name = models.CharField(max_length=20)
+    invited_by = models.CharField(max_length=5, choices=INVITED_BY_CHOICES)
+
+    invited_sangeet = models.BooleanField(default=False)
+    invited_ceremony = models.BooleanField(default=False)
+    invited_reception = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Invitation'
+        verbose_name_plural = 'Invitations'
+
+    def __str__(self):
+        return self.name
+
+# Create your models here.
+class Guest(models.Model):
+    VEG = "veg"
+    NON_VEG = "non-veg"
 
     MEAL_CHOICES = (
         (VEG, "Vegetarian"),
@@ -19,10 +36,6 @@ class Guest(models.Model):
 
     name = models.CharField(max_length=40)
     invitation = models.ForeignKey(Invitation, null=True, blank=True)
-    invited_by = models.CharField(max_length=5, choices=INVITED_BY_CHOICES)
-    invited_sangeet = models.BooleanField(default=False)
-    invited_ceremony = models.BooleanField(default=False)
-    invited_reception = models.BooleanField(default=False)
     attending_sangeet = models.BooleanField(default=False)
     attending_ceremony = models.BooleanField(default=False)
     attending_reception = models.BooleanField(default=False)
