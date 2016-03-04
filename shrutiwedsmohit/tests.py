@@ -2,6 +2,7 @@ from django.test import TestCase, Client
 from django.core.urlresolvers import resolve, reverse
 from django.contrib.auth.views import logout_then_login, logout
 from . import views
+from utils.testing import AdminTestBase
 
 
 class SmokeTest(TestCase):
@@ -12,8 +13,15 @@ class SmokeTest(TestCase):
 
 class HomePageTest(TestCase):
 
+    def __init__(self, *args, **kwargs):
+        super(HomePageTest, self).__init__(*args, **kwargs)
+        self.base = AdminTestBase()
+
     def setUp(self):
-        self.client = Client()
+        self.base.setUp()
+
+    def tearDown(self):
+        self.base.tearDown()
 
     def test_login_url_routing(self):
         # login url is at root hence "/"
