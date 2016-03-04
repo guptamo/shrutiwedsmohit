@@ -10,7 +10,6 @@ class SmokeTest(TestCase):
     def test_basic_math(self):
         self.assertEqual(1 + 1, 2)
 
-
 class HomePageTest(TestCase):
 
     def __init__(self, *args, **kwargs):

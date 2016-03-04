@@ -5,6 +5,7 @@ from .models import Guest, Invitation
 from .forms import GuestForm, InvitationForm
 from .views import password_generator
 from unittest import skip
+from utils.testing import AdminTestBase, GuestTestBase
 
 
 class AdminBaseTest(TestCase):
@@ -49,19 +50,23 @@ class GuestFunctionsTests(GuestBaseTest):
 
 class GuestModelTests(TestCase):
 
+    def __init__(self, *args, **kwargs):
+        super(GuestModelTests, self).__init__(*args, **kwargs)
+        self.base = GuestTestBase()
+
     def setUp(self):
+        self.base.setUp()
         self.boolean_fields = [
             "attending_sangeet",
             "attending_reception",
             "attending_ceremony"]
-
-        self.guest = Guest.objects.create(name="Some Dummy")
-        self.invitation = Invitation.objects.create()
-        self.guest.invitation = self.invitation
-        self.guest.save()
+        self.invitation = Invitation.objects.create(user=self.base.guest)
+        self.guest = Guest.objects.create(
+            invitation=self.invitation,
+            name="Some Dummy")
 
     def tearDown(self):
-        self.guest.delete()
+        self.base.tearDown()
 
     def test_guest_model_save(self):
         self.assertEqual(Guest.objects.count(), 1)
