@@ -5,6 +5,7 @@
 {% block content %}
 	<h1>Add Invitation</h1>
         <form class="" action="{% url 'invitation:add_invitation' %}" method="post">
+            {% csrf_token %}
             {% if form.non_field_errors %}
                 <div class="row">
                     {{ form.non_field_errors }}

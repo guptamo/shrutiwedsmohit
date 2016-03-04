@@ -15,10 +15,9 @@ def password_generator(name):
     letters_to_numbers = dict(zip(letters, range(26)))
 
     raw_password = ""
-
     for character in name:
         if character.isalpha():
-            raw_password += str(letters_to_numbers[character])
+            raw_password += str(letters_to_numbers[character.lower()])
         else:
             raw_password += str(character)
 
@@ -28,9 +27,9 @@ def password_generator(name):
 
 @login_required
 def dashboard(request, form=None):
-    if form is None:
+    if form == None:
         form = InvitationForm()
-    return render(request, "invitation/dashboard.html", {"form": form})
+    return render(request, "invitation/dashboard.html", context={"form": form})
 
 @login_required
 def add_invitation(request):
@@ -45,4 +44,5 @@ def add_invitation(request):
             invitation.save()
         else:
             context = {"form": form}
+            render(request, "invitation/dashboard.html", context)
     return redirect(reverse("invitation:dashboard"))

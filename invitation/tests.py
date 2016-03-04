@@ -1,50 +1,18 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, resolve
 from .models import Guest, Invitation
 from .forms import GuestForm, InvitationForm
-from .views import password_generator
+from .views import password_generator, dashboard
 from unittest import skip
 from utils.testing import AdminTestBase, GuestTestBase
-
-
-class AdminBaseTest(TestCase):
-
-    def setUp(self):
-        self.admin = User.objects.create_superuser(
-            username="admin",
-            email="admin@hotmail.com",
-            password="admin")
-        self.client = Client()
-        self.client.login(
-            username="admin",
-            password="admin")
-
-    def tearDown(self):
-        self.admin.delete()
-
-
-class GuestBaseTest(TestCase):
-
-    def setUp(self):
-        self.guest = User.objects.create_user(
-            username="guest",
-            email="guest@hotmail.com",
-            password="guest")
-        self.client = Client()
-        self.client.login(
-            username="guest",
-            password="guest")
-
-    def tearDown(self):
-        self.guest.delete()
 
 
 class AdminFunctionsTests(AdminBaseTest):
     pass
 
 
-class GuestFunctionsTests(GuestBaseTest):
+class GuestFunctionsTests(TestCase):
     pass
 
 
@@ -88,13 +56,28 @@ class GuestModelTests(TestCase):
         self.assertTrue(form.is_valid)
 
 
-class InvitationModelTests(AdminBaseTest):
+class InvitationModelTests(TestCase):
+
+    def __init__(self, *args, **kwargs):
+        super(InvitationModelTests, self).__init__(*args, **kwargs)
+        self.base = AdminTestBase()
+
+    def setUp(self):
+        self.base.setUp()
+        self.client = self.base.client
+
+    def tearDown(self):
+        self.base.tearDown()
+
+    def test_url_resolution_for_dashboard(self):
+        route = resolve(reverse("invitation:dashboard"))
+        self.assertEqual(route.func, dashboard)
 
     def test_add_invitation_form_in_dashboard_context(self):
-        response = self.client.get(reverse("invitation:dashboard"))
+        response = self.client.get(reverse("invitation:dashboard"), follow=True)
         self.assertIsInstance(response.context['form'], InvitationForm)
 
-    def test_posting_to_add_invitation_view(self):
+    def test_posting_to_add_invitation_view_redirects_to_dashboard(self):
         data = {
             "name": "schmoe",
             "invited_by": "gupta",
@@ -106,7 +89,7 @@ class InvitationModelTests(AdminBaseTest):
         self.assertRedirects(response, reverse("invitation:dashboard"))
 
     def test_password_generator(self):
-        self.assertEqual(password_generator("michael1"), "704111")
+        self.assertEqual(password_generator("Michael1"), "704111")
 
     def test_add_invitation_view_creates_invitation_objects(self):
         data = {
