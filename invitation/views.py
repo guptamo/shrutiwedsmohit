@@ -13,16 +13,22 @@ def password_generator(name):
     """
     letters = [letter for letter in string.ascii_lowercase]
     letters_to_numbers = dict(zip(letters, range(26)))
-    raw_password = \
-        "".join([str(letters_to_numbers[character]) for character in name])
-    length = len(raw_password)
-    password = raw_password[length-6:length]
+
+    raw_password = ""
+
+    for character in name:
+        if character.isalpha():
+            raw_password += str(letters_to_numbers[character])
+        else:
+            raw_password += str(character)
+
+    password = raw_password[-6:]
     return password
 
 
 @login_required
 def dashboard(request, form=None):
-    if form=None:
+    if form is None:
         form = InvitationForm()
     return render(request, "invitation/dashboard.html", {"form": form})
 

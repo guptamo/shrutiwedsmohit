@@ -101,7 +101,7 @@ class InvitationModelTests(AdminBaseTest):
         self.assertRedirects(response, reverse("invitation:dashboard"))
 
     def test_password_generator(self):
-        self.assertEqual(password_generator("michael"), "270411")
+        self.assertEqual(password_generator("michael1"), "704111")
 
     def test_add_invitation_view_creates_invitation_objects(self):
         data = {
