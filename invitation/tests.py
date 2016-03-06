@@ -8,12 +8,32 @@ from unittest import skip
 from utils.testing import AdminTestBase, GuestTestBase
 
 
-class AdminFunctionsTests(AdminBaseTest):
-    pass
+class AdminFunctionsTests(TestCase):
+
+    def __init__(self, *args, **kwargs):
+        super(AdminFunctionsTests, self).__init__(*args, **kwargs)
+        self.base = AdminTestBase()
+
+    def setUp(self):
+        self.base.setUp()
+        self.client = self.base.client
+
+    def tearDown(self):
+        self.base.tearDown()
 
 
 class GuestFunctionsTests(TestCase):
-    pass
+
+    def __init__(self, *args, **kwargs):
+        super(GuestFunctionsTests, self).__init__(*args, **kwargs)
+        self.base = GuestTestBase()
+
+    def setUp(self):
+        self.base.setUp()
+        self.client = self.base.client
+
+    def tearDown(self):
+        self.base.tearDown()
 
 
 class GuestModelTests(TestCase):
@@ -69,12 +89,8 @@ class InvitationModelTests(TestCase):
     def tearDown(self):
         self.base.tearDown()
 
-    def test_url_resolution_for_dashboard(self):
-        route = resolve(reverse("invitation:dashboard"))
-        self.assertEqual(route.func, dashboard)
-
     def test_add_invitation_form_in_dashboard_context(self):
-        response = self.client.get(reverse("invitation:dashboard"), follow=True)
+        response = self.client.get(reverse("invitation:dashboard"))
         self.assertIsInstance(response.context['form'], InvitationForm)
 
     def test_posting_to_add_invitation_view_redirects_to_dashboard(self):

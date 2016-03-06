@@ -32,6 +32,10 @@ def dashboard(request, form=None):
     return render(request, "invitation/dashboard.html", context={"form": form})
 
 @login_required
+def invitation(request, invitation_name):
+    return render(request, "invitation/invitation.html")
+
+@login_required
 def add_invitation(request):
     if request.method == "POST":
         form = InvitationForm(request.POST)
