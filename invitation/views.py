@@ -26,9 +26,8 @@ def password_generator(name):
 
 
 @login_required
-def dashboard(request, form=None):
-    if form == None:
-        form = InvitationForm()
+def dashboard(request):
+    form = InvitationForm()
     return render(request, "invitation/dashboard.html", context={"form": form})
 
 @login_required
@@ -46,7 +45,4 @@ def add_invitation(request):
                 password=password_generator(form.cleaned_data["name"]))
             invitation.user = user
             invitation.save()
-        else:
-            context = {"form": form}
-            render(request, "invitation/dashboard.html", context)
     return redirect(reverse("invitation:dashboard"))

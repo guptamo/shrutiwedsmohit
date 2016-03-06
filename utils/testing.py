@@ -15,6 +15,7 @@ class AdminTestBase(TestCase):
             password="admin")
 
     def tearDown(self):
+        self.client.logout()
         self.admin.delete()
 
 class GuestTestBase(TestCase):
@@ -30,4 +31,5 @@ class GuestTestBase(TestCase):
             password="guest")
 
     def tearDown(self):
+        self.client.logout()
         self.guest.delete()
