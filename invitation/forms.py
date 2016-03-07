@@ -18,9 +18,14 @@ class GuestForm(ModelForm):
     class Meta:
         model = Guest
         fields = [
-            "name",
             "attending_sangeet",
             "attending_ceremony",
             "attending_reception",
             "meal_choice",
             "note"]
+
+class AddGuestForm(ModelForm):
+
+    class Meta:
+        model = Guest
+        fields =["name"]

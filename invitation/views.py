@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from .forms import InvitationForm
+from .forms import InvitationForm, GuestForm
 from django.core.urlresolvers import reverse
 import string
 
@@ -32,7 +32,8 @@ def dashboard(request):
 
 @login_required
 def invitation(request, invitation_name):
-    return render(request, "invitation/invitation.html")
+    form = GuestForm()
+    return render(request, "invitation/invitation.html", context={"form": form})
 
 @login_required
 def add_invitation(request):

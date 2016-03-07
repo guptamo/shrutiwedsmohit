@@ -2,7 +2,7 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, resolve
 from .models import Guest, Invitation
-from .forms import GuestForm, InvitationForm
+from .forms import GuestForm, InvitationForm, AddGuestForm
 from .views import password_generator, dashboard
 from unittest import skip
 from utils.testing import AdminTestBase, GuestTestBase
@@ -34,6 +34,11 @@ class GuestFunctionsTests(TestCase):
 
     def tearDown(self):
         self.base.tearDown()
+
+    def test_guest_form_in_context(self):
+        response = self.client.get(
+            reverse("invitation:invitation", args=[self.base.guest.username]))
+        self.assertIsInstance(response.context["form"], GuestForm)
 
 
 class GuestModelTests(TestCase):
@@ -72,6 +77,11 @@ class GuestModelTests(TestCase):
 
     def test_guest_form(self):
         form = GuestForm({})
+        self.assertTrue(form.is_bound)
+        self.assertTrue(form.is_valid)
+
+    def test_add_guest_form(self):
+        form = AddGuestForm({"name": self.base.guest.username})
         self.assertTrue(form.is_bound)
         self.assertTrue(form.is_valid)
 
