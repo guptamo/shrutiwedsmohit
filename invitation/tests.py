@@ -21,6 +21,24 @@ class AdminFunctionsTests(TestCase):
     def tearDown(self):
         self.base.tearDown()
 
+    def test_invitation_lists_in_dashboard_context(self):
+        response = self.client.get(reverse("invitation:dashboard"))
+        self.assertTrue(all(
+            isinstance(invitation, Invitation)
+                for invitation in response.context["invitations"]))
+        self.assertIsNotNone(response.context["invitations"])
+
+    def test_invitations_display_on_dashboard(self):
+        invitation = Invitation.objects.create()
+        response = self.client.get(reverse("invitation:dashboard"))
+        self.assertInHTML("<h2>Invitations</h2>", response.content.decode())
+
+    def test_invitations_do_not_display_if_no_invitations(self):
+        response = self.client.get(reverse("invitation:dashboard"))
+        self.assertInHTML(
+            "<h2>You Haven't Invited Anyone Yet...Do It!</h2>",
+            response.content.decode())
+
 
 class GuestFunctionsTests(TestCase):
 

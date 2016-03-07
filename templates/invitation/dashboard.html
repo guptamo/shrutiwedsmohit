@@ -17,5 +17,29 @@
             {% endfor %}
             <input id="create" class="btn red" type="submit" value="Create" />
         </form>
+
+    {% if invitations %}
+        <h2>Invitations</h2>
+        <table>
+            <thead>
+                <td>
+                    Name
+                </td>
+                <td>
+                    Guests
+                </td>
+            </thead>
+            <tbody>
+                {% for invitation in invitations %}
+                    <tr>
+                        <td>{{ invitation.name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h2>You Haven't Invited Anyone Yet...Do It!</h2>
+    {% endif %}
+
     <a href="{% url 'logout' %}">Logout</a>
 {% endblock content %}

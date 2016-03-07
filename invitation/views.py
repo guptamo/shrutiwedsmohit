@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import InvitationForm, GuestForm
 from django.core.urlresolvers import reverse
+from .models import Invitation
 import string
 
 
@@ -28,7 +29,12 @@ def password_generator(name):
 @login_required
 def dashboard(request):
     form = InvitationForm()
-    return render(request, "invitation/dashboard.html", context={"form": form})
+    invitations = Invitation.objects.all()
+    context = {
+        "form": form,
+        "invitations": invitations
+    }
+    return render(request, "invitation/dashboard.html", context)
 
 @login_required
 def invitation(request, invitation_name):
