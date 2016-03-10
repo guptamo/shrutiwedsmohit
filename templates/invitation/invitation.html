@@ -4,5 +4,73 @@
 
 {% block content %}
 	<h1>Celebrate With Us!</h1>
+    {% if user.is_staff %}
+        <h2>Add Guest</h2>
+        <form class="" action="{% url 'invitation:add_guest' invitation.name %}" method="post">
+            {% csrf_token %}
+            {% if add_guest_form.non_field_errors %}
+                <div class="row">
+                    {{ add_guest_form.non_field_errors }}
+                </div>
+            {% endif %}
+            {% for field in add_guest_form %}
+                {{ field.errors }}
+                {{ field.label_tag }}{{ field }}<br>
+            {% endfor %}
+            <input id="create" class="btn red" type="submit" value="Create" />
+        </form>
+    {% endif %}
+
+    {% for guest, form in guest_list %}
+    <h3> {{ guest.name }} </h3>
+        <form class="" action="{% url 'invitation:update_guest' invitation.name guest.pk %}" method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="row">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            {% if invitation.invited_sangeet %}
+                <div class="fieldWrapper">
+                    {{ form.attending_sangeet.errors }}
+                    {{ form.attending_sangeet.label_tag }}
+                    {{ form.attending_sangeet }}
+                </div>
+            {% endif %}
+            {% if invitation.invited_ceremony %}
+                <div class="fieldWrapper">
+                    {{ form.attending_ceremony.errors }}
+                    {{ form.attending_ceremony.label_tag }}
+                    {{ form.attending_ceremony }}
+                </div>
+            {% endif %}
+            {% if invitation.invited_reception %}
+                <div class="fieldWrapper">
+                    {{ form.attending_reception.errors }}
+                    {{ form.attending_reception.label_tag }}
+                    {{ form.attending_reception }}
+                </div>
+            {% endif %}
+            {% if invitation.invited_reception %}
+                <div class="fieldWrapper">
+                    {{ form.meal_choice.errors }}
+                    {{ form.meal_choice.label_tag }}
+                    {{ form.meal_choice }}
+                </div>
+            {% endif %}
+            <div class="fieldWrapper">
+                {{ form.note.errors }}
+                {{ form.note.label_tag }}
+                {{ form.note }}
+            </div>
+            <input id="create" class="btn red" type="submit" value="RSVP" />
+        </form>
+    {% endfor %}
+
+    {% if user.is_staff %}
+        <a href="{% url 'invitation:dashboard' %}">Dashboard</a>
+    {% endif %}
+
     <a href="{% url 'logout' %}">Logout</a>
 {% endblock content %}

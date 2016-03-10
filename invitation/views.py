@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
-from .forms import InvitationForm, GuestForm
+from .forms import InvitationForm, AddGuestForm, UpdateGuestForm
+from django.forms import modelformset_factory
 from django.core.urlresolvers import reverse
-from .models import Invitation
+from .models import Invitation, Guest
 import string
 
 
@@ -25,23 +26,49 @@ def password_generator(name):
     password = raw_password[-6:]
     return password
 
-
 @login_required
+@user_passes_test(lambda u: u.is_staff)
 def dashboard(request):
     form = InvitationForm()
-    invitations = Invitation.objects.all()
+    invitations = Invitation.objects.all().order_by("name")
+    passwords = [password_generator(invitation.name) for invitation in invitations]
+    invite_info = zip(invitations, passwords)
     context = {
         "form": form,
-        "invitations": invitations
+        "invite_info": invite_info
     }
     return render(request, "invitation/dashboard.html", context)
 
 @login_required
 def invitation(request, invitation_name):
-    form = GuestForm()
-    return render(request, "invitation/invitation.html", context={"form": form})
+    invitation = get_object_or_404(Invitation, name=invitation_name)
+    guests = invitation.guest_set.all().order_by("name")
+    guest_forms = []
+    for guest in guests:
+        guest_forms.append(UpdateGuestForm(instance=guest))
+    guest_list = zip(guests, guest_forms)
+    add_guest_form = AddGuestForm()
+    context = {
+        "invitation": invitation,
+        "guest_list": guest_list,
+        "add_guest_form": add_guest_form,
+    }
+    return render(request, "invitation/invitation.html", context)
 
 @login_required
+@user_passes_test(lambda u: u.is_staff)
+def add_guest(request, invitation_name):
+    if request.method == "POST":
+        invitation = get_object_or_404(Invitation, name=invitation_name)
+        form = AddGuestForm(request.POST)
+        if form.is_valid():
+            guest = form.save()
+            guest.invitation = invitation
+            guest.save()
+    return redirect(invitation)
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
 def add_invitation(request):
     if request.method == "POST":
         form = InvitationForm(request.POST)
@@ -53,3 +80,13 @@ def add_invitation(request):
             invitation.user = user
             invitation.save()
     return redirect(reverse("invitation:dashboard"))
+
+@login_required
+def update_guest(request, invitation_name, guest_pk):
+    guest = get_object_or_404(Guest, pk=guest_pk)
+    invitation = get_object_or_404(Invitation, name=invitation_name)
+    if request.method == "POST":
+        form = UpdateGuestForm(request.POST, instance=guest)
+        if form.is_valid():
+            form.save()
+    return redirect(invitation)

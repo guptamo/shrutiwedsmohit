@@ -18,7 +18,7 @@
             <input id="create" class="btn red" type="submit" value="Create" />
         </form>
 
-    {% if invitations %}
+    {% if invite_info %}
         <h2>Invitations</h2>
         <table>
             <thead>
@@ -26,13 +26,18 @@
                     Name
                 </td>
                 <td>
-                    Guests
+                    Password
+                </td>
+                <td>
+                    Link
                 </td>
             </thead>
             <tbody>
-                {% for invitation in invitations %}
+                {% for invitation, password in invite_info %}
                     <tr>
                         <td>{{ invitation.name }}</td>
+                        <td>{{ password }}</td>
+                        <td><a href="{{ invitation.get_absolute_url }}">See Invitation</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

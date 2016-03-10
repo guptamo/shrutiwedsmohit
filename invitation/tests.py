@@ -2,8 +2,8 @@ from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, resolve
 from .models import Guest, Invitation
-from .forms import GuestForm, InvitationForm, AddGuestForm
-from .views import password_generator, dashboard
+from .forms import InvitationForm, AddGuestForm, UpdateGuestForm
+from .views import password_generator, dashboard, update_guest
 from unittest import skip
 from utils.testing import AdminTestBase, GuestTestBase
 
@@ -17,6 +17,7 @@ class AdminFunctionsTests(TestCase):
     def setUp(self):
         self.base.setUp()
         self.client = self.base.client
+        self.invitation = lambda: Invitation.objects.create(name="testinvite")
 
     def tearDown(self):
         self.base.tearDown()
@@ -24,9 +25,9 @@ class AdminFunctionsTests(TestCase):
     def test_invitation_lists_in_dashboard_context(self):
         response = self.client.get(reverse("invitation:dashboard"))
         self.assertTrue(all(
-            isinstance(invitation, Invitation)
-                for invitation in response.context["invitations"]))
-        self.assertIsNotNone(response.context["invitations"])
+            isinstance(invitation, (Invitation, str))
+                for invitation in response.context["invite_info"]))
+        self.assertIsNotNone(response.context["invite_info"])
 
     def test_invitations_display_on_dashboard(self):
         invitation = Invitation.objects.create()
@@ -39,6 +40,43 @@ class AdminFunctionsTests(TestCase):
             "<h2>You Haven't Invited Anyone Yet...Do It!</h2>",
             response.content.decode())
 
+    def test_posting_add_guest_form_to_add_guest_view_creates_guest(self):
+        invitation = self.invitation()
+        response = self.client.post(
+            reverse("invitation:add_guest", args=[invitation.name]),
+            {"name": "Test Guest"}
+        )
+        invitation.refresh_from_db()
+        guest = invitation.guest_set.all()
+        self.assertEqual(guest[0].name, "Test Guest")
+
+    def test_posting_add_guest_form_to_add_guest_view_redirects_to_invitation(self):
+        invitation = self.invitation()
+        response = self.client.post(
+            reverse("invitation:add_guest", args=[invitation.name]),
+            {"name": "Test Guest"}
+        )
+        self.assertRedirects(response, invitation.get_absolute_url())
+
+    def test_add_guest_form_in_invitation_context(self):
+        invitation = self.invitation()
+        response = self.client.get(invitation.get_absolute_url())
+        self.assertIsInstance(response.context["add_guest_form"], AddGuestForm)
+
+    def test_guest_formset_invitation_context(self):
+        invitation = self.invitation()
+        response = self.client.get(invitation.get_absolute_url())
+        self.assertTrue(
+            all(
+                isinstance(guest, (Guest, UpdateGuestForm)) for guest in response.context["guest_list"]
+            )
+        )
+
+    def test_add_guest_form_displays_in_html(self):
+        invitation = self.invitation()
+        response = self.client.get(invitation.get_absolute_url())
+        self.assertInHTML("<h2>Add Guest</h2>", response.content.decode())
+
 
 class GuestFunctionsTests(TestCase):
 
@@ -49,14 +87,20 @@ class GuestFunctionsTests(TestCase):
     def setUp(self):
         self.base.setUp()
         self.client = self.base.client
+        self.invitation = Invitation.objects.create(name="testinvite")
+        self.invitation.user = self.base.guest
+        self.invitation.save()
 
     def tearDown(self):
         self.base.tearDown()
+        self.invitation.delete()
 
-    def test_guest_form_in_context(self):
-        response = self.client.get(
-            reverse("invitation:invitation", args=[self.base.guest.username]))
-        self.assertIsInstance(response.context["form"], GuestForm)
+    def test_add_guest_form_not_in_html(self):
+        response = self.client.get(self.invitation.get_absolute_url())
+        self.assertInHTML(
+            "<h2>Add Guest</h2>",
+            response.content.decode(),
+            count=0)
 
 
 class GuestModelTests(TestCase):
@@ -71,37 +115,59 @@ class GuestModelTests(TestCase):
             "attending_sangeet",
             "attending_reception",
             "attending_ceremony"]
-        self.invitation = Invitation.objects.create(user=self.base.guest)
-        self.guest = Guest.objects.create(
+        self.invitation = Invitation.objects.create(
+            user=self.base.guest,
+            name="testinvite"
+        )
+        self.guest = lambda: Guest.objects.create(
             invitation=self.invitation,
-            name="Some Dummy")
+            name="Some Dummy"
+        )
 
     def tearDown(self):
         self.base.tearDown()
 
     def test_guest_model_save(self):
+        guest = self.guest()
         self.assertEqual(Guest.objects.count(), 1)
 
     def test_guest_model_save_defaults(self):
-        self.assertEqual(self.guest.name, "Some Dummy")
+        guest = self.guest()
+        self.assertEqual(guest.name, "Some Dummy")
         for field in self.boolean_fields:
-            self.assertFalse(getattr(self.guest, field))
-        self.assertEqual(self.guest.meal_choice, "")
-        self.assertEqual(self.guest.note, "")
-        self.assertEqual(self.guest.invitation, self.invitation)
+            self.assertFalse(getattr(guest, field))
+        self.assertEqual(guest.meal_choice, "")
+        self.assertEqual(guest.note, "")
+        self.assertEqual(guest.invitation, self.invitation)
 
     def test_str_function(self):
-        self.assertEqual(self.guest.__str__(), "Some Dummy")
-
-    def test_guest_form(self):
-        form = GuestForm({})
-        self.assertTrue(form.is_bound)
-        self.assertTrue(form.is_valid)
+        guest = self.guest()
+        self.assertEqual(guest.__str__(), "Some Dummy")
 
     def test_add_guest_form(self):
         form = AddGuestForm({"name": self.base.guest.username})
         self.assertTrue(form.is_bound)
         self.assertTrue(form.is_valid)
+
+    @skip
+    def test_guest_add_form_view_saves_new_guests(self):
+        response = self.client.post(
+            reverse("invitation:add_guest", args=[self.invitation.name]),
+            {"name": "Some Guy"}
+        )
+        self.invitation.refresh_from_db()
+        guests = self.invitation.guest_set.all()
+        # guests = Guest.objects.filter(invitation__name=self.invitation.name)
+        print(guests)
+        self.assertEqual(guests[0].name, "Some Guy")
+
+    def test_update_guests_url_resolves_properly(self):
+        guest = self.guest()
+        route = resolve(reverse(
+            "invitation:update_guest",
+            args=[self.invitation.name, guest.pk]
+        ))
+        self.assertEqual(route.func, update_guest)
 
 
 class InvitationModelTests(TestCase):
@@ -146,3 +212,10 @@ class InvitationModelTests(TestCase):
         response = self.client.post(reverse("invitation:add_invitation"), data)
         self.assertEqual(Invitation.objects.count(), 1)
         self.assertEqual(User.objects.count(), 2)
+
+    def test_invitation_get_absolute_url(self):
+        invitation = Invitation.objects.create(name="testinvite")
+        self.assertEqual(
+            invitation.get_absolute_url(),
+            reverse("invitation:invitation", args=[invitation.name])
+        )

@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, BaseModelFormSet
 from .models import Guest, Invitation
 
 
@@ -11,9 +11,17 @@ class InvitationForm(ModelForm):
             "invited_by",
             "invited_sangeet",
             "invited_ceremony",
-            "invited_reception"]
+            "invited_reception"
+        ]
 
-class GuestForm(ModelForm):
+
+class AddGuestForm(ModelForm):
+
+    class Meta:
+        model = Guest
+        fields =["name"]
+
+class UpdateGuestForm(ModelForm):
 
     class Meta:
         model = Guest
@@ -22,10 +30,5 @@ class GuestForm(ModelForm):
             "attending_ceremony",
             "attending_reception",
             "meal_choice",
-            "note"]
-
-class AddGuestForm(ModelForm):
-
-    class Meta:
-        model = Guest
-        fields =["name"]
+            "note"
+        ]
