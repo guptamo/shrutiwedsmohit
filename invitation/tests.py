@@ -1,9 +1,11 @@
 from django.test import TestCase, Client
+from django.test.client import RequestFactory
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, resolve
 from .models import Guest, Invitation
 from .forms import InvitationForm, AddGuestForm, UpdateGuestForm
-from .views import password_generator, dashboard, update_guest
+from .views import (password_generator, dashboard, update_guest,
+    invitation_access_check)
 from unittest import skip
 from utils.testing import AdminTestBase, GuestTestBase
 
@@ -85,6 +87,7 @@ class GuestFunctionsTests(TestCase):
         self.invitation = Invitation.objects.create(name="testinvite")
         self.invitation.user = self.base.guest
         self.invitation.save()
+        self.factory = RequestFactory()
 
     def tearDown(self):
         self.base.tearDown()
@@ -96,6 +99,16 @@ class GuestFunctionsTests(TestCase):
             "<h2>Add Guest</h2>",
             response.content.decode(),
             count=0)
+
+    def test_invitation_access_check_function(self):
+        request = self.factory.get(self.invitation.get_absolute_url())
+        request.user = self.invitation.user
+        self.assertTrue(
+            invitation_access_check(request, self.invitation.name)
+        )
+        self.assertFalse(
+            invitation_access_check(request, "bob")
+        )
 
 
 class GuestModelTests(TestCase):
