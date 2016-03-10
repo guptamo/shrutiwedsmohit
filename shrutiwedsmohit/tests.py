@@ -21,6 +21,10 @@ class GuestPageTest(TestCase):
     def setUp(self):
         self.base.setUp()
         self.client = self.base.client
+        self.invitation = lambda: Invitation.objects.create(
+            name=self.base.guest.username,
+            user=self.base.guest
+        )
 
     def tearDown(self):
         self.base.tearDown()
@@ -35,10 +39,12 @@ class GuestPageTest(TestCase):
             response.redirect_chain)
 
     def test_redirect_to_invitation_on_login_for_guests(self):
-        response = self.client.get(reverse("login_redirect"), follow=True)
+        invitation = self.invitation()
+        response = self.client.get(reverse("login_redirect"))
         self.assertRedirects(
             response,
-            reverse("invitation:invitation", args=[self.base.guest.username]))
+            reverse("invitation:invitation", args=[self.base.guest.username])
+        )
 
 
 class HomePageTest(TestCase):

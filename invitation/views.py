@@ -31,8 +31,9 @@ def password_generator(name):
 def dashboard(request):
     form = InvitationForm()
     invitations = Invitation.objects.all().order_by("name")
-    passwords = [password_generator(invitation.name) for invitation in invitations]
-    invite_info = zip(invitations, passwords)
+    passwords = \
+        [password_generator(invitation.name) for invitation in invitations]
+    invite_info = tuple(zip(invitations, passwords))
     context = {
         "form": form,
         "invite_info": invite_info
