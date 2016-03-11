@@ -48,8 +48,8 @@ def dashboard(request):
 
 @login_required
 def invitation(request, invitation_name):
-    if not invitation_access_check(request, invitation_name):
-        return redirect(request.user.invitation.get_absolute_url())
+    # if not invitation_access_check(request, invitation_name):
+    #     return redirect(request.user.invitation.get_absolute_url())
     invitation = get_object_or_404(Invitation, name=invitation_name)
     guests = invitation.guest_set.all().order_by("name")
     guest_forms = []
@@ -92,8 +92,8 @@ def add_invitation(request):
 
 @login_required
 def update_guest(request, invitation_name, guest_pk):
-    if not invitation_access_check(request, invitation_name):
-        return redirect(request.user.invitation.get_absolute_url())
+    # if not invitation_access_check(request, invitation_name):
+    #     return redirect(request.user.invitation.get_absolute_url())
     guest = get_object_or_404(Guest, pk=guest_pk)
     invitation = get_object_or_404(Invitation, name=invitation_name)
     if request.method == "POST":

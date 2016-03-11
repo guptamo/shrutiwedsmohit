@@ -3,48 +3,104 @@
 {% block title %}Dashboard{% endblock title %}
 
 {% block content %}
-	<h1>Add Invitation</h1>
-        <form class="" action="{% url 'invitation:add_invitation' %}" method="post">
-            {% csrf_token %}
-            {% if form.non_field_errors %}
+    <a href="{% url 'logout' %}" class="btn red" style="position:fixed; top:5%; right:5%; ">Logout</a>
+    <div class="container">
+        <div class="row">
+            <h1 class="header">Wedding Dashboard</h1>
+            <form class="" action="{% url 'invitation:add_invitation' %}" method="post">
+                <h4 class="header">Add Invitation</h4>
+                <div class="divider"></div><br>
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="row">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
                 <div class="row">
-                    {{ form.non_field_errors }}
+                    <div class="input-field col s10 l5 offset-l1">
+                        {{ form.name.errors }}
+                        {{ form.name }}
+                        {{ form.name.label_tag }}
+                    </div>
+                    <div class="input-field col s7 l3">
+                        {{ form.invited_by.errors }}
+                        {{ form.invited_by }}
+                        {{ form.invited_by.label_tag }}
+                    </div>
                 </div>
+                <h5 class="header">Events</h5>
+                <div class="row">
+                    <div class="col s4 l2">
+                        <p>Sangeet</p>
+                        <div class="switch">
+                            {{ form.invited_sangeet.errors }}
+                            <label>
+                                {{ form.invited_sangeet }}
+                                <span class="lever"></span>
+                                invited
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col s4 l2">
+                        <p>Ceremony</p>
+                        <div class="switch">
+                            {{ form.invited_ceremony.errors }}
+                            <label>
+                                {{ form.invited_ceremony }}
+                                <span class="lever"></span>
+                                invited
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col s4 l2">
+                        <p>Reception</p>
+                        <div class="switch">
+                            {{ form.invited_reception.errors }}
+                            <label>
+                                {{ form.invited_reception }}
+                                <span class="lever"></span>
+                                invited
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 l3">
+                        <br>
+                        <input id="create" class="btn red" type="submit" value="Invite" />
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            {% if invite_info %}
+                <h2>Invitations</h2>
+                <table class="highlight respnsive-table">
+                    <thead>
+                        <td>
+                            Name
+                        </td>
+                        <td>
+                            Password
+                        </td>
+                        <td>
+                            Link
+                        </td>
+                    </thead>
+                    <tbody>
+                        {% for invitation, password in invite_info %}
+                            <tr>
+                                <td>{{ invitation.name }}</td>
+                                <td>{{ password }}</td>
+                                <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h2>You Haven't Invited Anyone Yet...Do It!</h2>
             {% endif %}
-            {% for field in form %}
-                {{ field.errors }}
-                {{ field.label_tag }}{{ field }}<br>
-            {% endfor %}
-            <input id="create" class="btn red" type="submit" value="Create" />
-        </form>
-
-    {% if invite_info %}
-        <h2>Invitations</h2>
-        <table>
-            <thead>
-                <td>
-                    Name
-                </td>
-                <td>
-                    Password
-                </td>
-                <td>
-                    Link
-                </td>
-            </thead>
-            <tbody>
-                {% for invitation, password in invite_info %}
-                    <tr>
-                        <td>{{ invitation.name }}</td>
-                        <td>{{ password }}</td>
-                        <td><a href="{{ invitation.get_absolute_url }}">See Invitation</a></td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <h2>You Haven't Invited Anyone Yet...Do It!</h2>
-    {% endif %}
-
-    <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
 {% endblock content %}
