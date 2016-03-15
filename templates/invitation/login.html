@@ -1,50 +1,54 @@
-{% extends "base.html" %}
-
-{% block title %}Login{% endblock title %}
-
-{% block content %}
-    <div class="container">
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+	<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Login | Shruti and Mohit's Wedding Site</title>
+        <!--Import Google Icon Font-->
+        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/custom_login.css' %}"  media="screen,projection"/>
+	</head>
+	<body>
         {% if user.is_authenticated %}
-            <h1 class="center-align">You lost bro?</h1>
-            {% if user.is_staff %}
-                <a href="{% url 'invitation:dashboard' %}" class="center-align">Back to Dashboard</a>
-            {% else %}
-                <a href="{{ user.invitation.get_absolute_url }}" class="center-align">Back To Invitation</a>
-            {% endif %}
-            <a href="{% url 'logout' %}" class="center-align">Logout</a>
-        {% else %}
-            <h1 class="center-align">Login</h1>
-            {% if form.errors %}
-                <p class="center-align">Your username and password didn't match. Please try again.</p>
-            {% endif %}
-
-            {% if next %}
-                {% if user.is_authenticated %}
-                <p class="center-align">Your account doesn't have access to this page. To proceed,
-                please login with an account that has access.</p>
+            <div class="logo"></div>
+            <div class="login-block">
+                <h1 class="center-align">You lost bro?</h1>
+                {% if user.is_staff %}
+                    <a href="{% url 'invitation:dashboard' %}" class="center-align">Back to Dashboard</a>
                 {% else %}
-                <p class="center-align">Please login to see this page.</p>
+                    <a href="{{ user.invitation.get_absolute_url }}" class="center-align">Back To Invitation</a>
                 {% endif %}
-            {% endif %}
-            <div class="row">
-                <form method="post" action="{% url 'login' %}" class="center-align">
+                <a href="{% url 'logout' %}" class="center-align">Logout</a>
+            </div>
+        {% else %}
+            <div class="logo"></div>
+            <div class="login-block">
+                <form method="post" action="{% url 'login' %}">
+                    <h1>Login</h1>
+                    {% if form.errors %}
+                        <p>Your username and password didn't match. Please try again.</p>
+                    {% endif %}
+                    {% if next %}
+                        {% if user.is_authenticated %}
+                        <p class="center-align">Your account doesn't have access to this page. To proceed,
+                        please login with an account that has access.</p>
+                        {% else %}
+                        <p class="center-align">Please login to see this page.</p>
+                        {% endif %}
+                    {% endif %}
+
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="input-field col s10 l8 center-align">
-                            {{ form.username.label_tag }}
-                            {{ form.username }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s10 l8">
-                            {{ form.password.label_tag }}
-                            {{ form.password }}
-                        </div>
-                    </div>
-                    <input type="submit" value="login" id="login" class="btn red"/>
+                    {{ form.username.label_tag }}
+                    {{ form.username }}
+                    {{ form.password.label_tag }}
+                    {{ form.password }}
+                    <input type="submit" value="login" id="login" class="login-btn"/>
                     <input type="hidden" name="next" value="{{ next }}" />
                 </form>
             </div>
         {% endif %}
-    </div>
-{% endblock content %}
+	</body>
+</html>

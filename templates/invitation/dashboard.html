@@ -1,9 +1,15 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}Dashboard{% endblock title %}
 
+{% block head_scripts %}
+    <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}"  media="screen,projection"/>
+{% endblock head_scripts %}
+
 {% block content %}
-    <a href="{% url 'logout' %}" class="btn red" style="position:fixed; top:5%; right:5%; ">Logout</a>
+    <a href="{% url 'logout' %}" class="btn red center-align hide-on-med-and-up" style="position:fixed; bottom:5%;">Logout</a>
+    <a href="{% url 'logout' %}" class="btn red hide-on-small-only" style="position:fixed; top:5%; right:5%; ">Logout</a>
     <div class="container">
         <div class="row">
             <h1 class="header">Wedding Dashboard</h1>

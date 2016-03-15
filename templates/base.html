@@ -11,15 +11,16 @@
         <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.css' %}"  media="screen,projection"/>
-
+        {% block head_scripts %}{% endblock head_scripts %}
 	</head>
 	<body>
 	{% block content %}
 		Stuff goes in here
 	{% endblock content %}
         <!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/bin/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bin/materialize.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bin/custom.js' %}"></script>
+        {% block body_scripts %}{% endblock body_scripts %}
 	</body>
 </html>

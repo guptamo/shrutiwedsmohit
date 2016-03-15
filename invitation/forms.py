@@ -1,4 +1,4 @@
-from django.forms import ModelForm, BaseModelFormSet
+from django.forms import ModelForm, BaseModelFormSet, Textarea
 from .models import Guest, Invitation
 
 
@@ -32,3 +32,9 @@ class UpdateGuestForm(ModelForm):
             "meal_choice",
             "note"
         ]
+        widgets = {
+            "note": Textarea(attrs={
+                "class": "materialize-textarea",
+                # "length": 500,
+            })
+        }
