@@ -35,6 +35,5 @@ class UpdateGuestForm(ModelForm):
         widgets = {
             "note": Textarea(attrs={
                 "class": "materialize-textarea",
-                # "length": 500,
             })
         }

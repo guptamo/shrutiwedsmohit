@@ -36,7 +36,8 @@ class Guest(models.Model):
 
     MEAL_CHOICES = (
         (VEG, "Vegetarian"),
-        (NON_VEG, "Non-vegetarian"),)
+        (NON_VEG, "Non-vegetarian (Fish and Chicken)"),
+    )
 
     name = models.CharField(max_length=40)
     invitation = models.ForeignKey(Invitation, null=True, blank=True)

@@ -1,3 +1,16 @@
+@font-face {
+    font-family: 'bodytext';
+    src: url("../fonts/champagne_limousines/Champagne-Limousines.ttf") format('truetype');
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'handwritten';
+    src: url("../fonts/aracne_ultra_condensed/ARACNE-ULTRA-CONDENSED_regular.otf") format('opentype');
+    font-style:normal;
+}
+
+
 body{
     margin:0px 0px 0px 0px;
     padding-bottom: 0px;
@@ -5,8 +18,20 @@ body{
 }
 html{
     overflow-x: hidden;
+    font-family: 'bodytext';
 }
 
+nav {
+    font-family: 'handwritten';
+}
+
+nav .brand-logo {
+    font-size: 3rem;
+}
+
+ul.nav-list li{
+    font-size: 3rem !important;
+}
 #hero{
   background-image:url("../img/hero/hero-closeup-wall.jpg");
   background-size:cover;
@@ -37,6 +62,18 @@ a.brand-logo {
 
 }
 
+h2 {
+    font-family: 'handwritten', sans-serif;
+}
+
 footer {
     padding: 0.3em 0 0.3em 0;
+}
+
+.map {
+    padding-top: 1rem !important;
+}
+
+.info-block {
+    padding-left: 2rem !important;
 }

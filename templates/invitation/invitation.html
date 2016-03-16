@@ -11,11 +11,11 @@
         <nav class="pink">
             <div class="nav-wrapper">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul class="right hide-on-med-and-down">
+                <ul class="nav-list right hide-on-med-and-down" style="font-size: 2rem;">
                     {% include "invitation/navbar.html" %}
                 </ul>
                 <a href="#" class="brand-logo">shruti & mohit</a>
-                <ul class="side-nav" id="mobile-demo">
+                <ul class="nav-list side-nav" id="mobile-demo">
                     {% include "invitation/navbar.html" %}
                 </ul>
             </div>
@@ -29,28 +29,33 @@
     <div class="container">
         {% if user.is_staff %}
             <div class="row">
-                <h4>Add Guest</h4>
-                <form class="" action="{% url 'invitation:add_guest' invitation.name %}" method="post">
-                    {% csrf_token %}
-                    {% if add_guest_form.non_field_errors %}
-                        <div class="row">
-                            {{ add_guest_form.non_field_errors }}
-                        </div>
-                    {% endif %}
-                    <div class="row">
-                        <p>Guest Name</p>
-                        <div class="col s9 m6 l4">
-                            {% for field in add_guest_form %}
-                                {{ field.errors }}
-                                {{ field }}
-                            {% endfor %}
-                        </div>
-                        <div class="col s3 m3 l3">
-                            <input id="create" class="btn red" type="submit" value="Create"/>
+                <div class="col s12 m6 l6">
+                    <div class="card">
+                        <div class="card-content">
+                            <h4>Add Guest</h4>
+                            <form action="{% url 'invitation:add_guest' invitation.name %}" method="post">
+                                {% csrf_token %}
+                                {% if add_guest_form.non_field_errors %}
+                                    <div class="row">
+                                        {{ add_guest_form.non_field_errors }}
+                                    </div>
+                                {% endif %}
+                                <div class="row">
+                                    <p>Guest Name</p>
+                                    <div class="col s9 m9 l9">
+                                        {% for field in add_guest_form %}
+                                            {{ field.errors }}
+                                            {{ field }}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col s3 m3 l3">
+                                        <input id="create" class="btn red" type="submit" value="Create"/>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                </form>
+                </div>
             </div>
         {% endif %}
 
@@ -61,7 +66,7 @@
                     <div class="card">
                         <div class="card-content">
                             <span class="card-title">{{ guest.name }}</span>
-                            <form class="" action="{% url 'invitation:update_guest' invitation.name guest.pk %}" method="post">
+                            <form action="{% url 'invitation:update_guest' invitation.name guest.pk %}" method="post">
                                 {% csrf_token %}
                                 {% if form.non_field_errors %}
                                     <div class="row">
@@ -114,7 +119,7 @@
                                     {% if invitation.invited_reception %}
                                     <div class="col s6 m6 l6">
                                         <div class="input-field">
-                                            <p>Meal Choice</p>
+                                            <p>Reception Meal Choice</p>
                                             {{ form.meal_choice.errors }}
                                             {{ form.meal_choice }}
                                         </div>
@@ -130,7 +135,7 @@
                                     <div class="col s6 l3">
                                         <input id="create" class="btn red" type="submit" value="RSVP" />
                                     </div>
-                                </div
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -146,7 +151,7 @@
                 <div class="divider"></div>
                 <div class="row">
                     {% if invitation.invited_by == "verma" %}
-                        <div class="col s12 m6 l6">
+                        <div class="col s12 m6 l6 right-align">
                             <h5>When</h5>
                             <p class="light">
                                 Thursday, August 4, 2016<br>
@@ -159,7 +164,7 @@
                                 Brampton, ON L6P 1K3
                             </p>
                         </div>
-                        <div class="col s12 m6 l6">
+                        <div class="col s12 m6 l6 map">
                             <div class="video-container">
                                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2880.738185042336!2d-79.67228338414202!3d43.778293352350005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b3cb4e8481aaf%3A0x170b8517408c8758!2s1+Shadyridge+Rd%2C+Brampton%2C+ON+L6P+1K4!5e0!3m2!1sen!2sca!4v1457986082304" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                             </div>
@@ -178,7 +183,7 @@
                                 Ottawa, ON K1W 1J9
                             </p>
                         </div>
-                        <div class="col s12 m6 l6">
+                        <div class="col s12 m6 l6 map">
                             <div class="video-container">
                                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.617312585962!2d-75.53363358410552!3d45.43721514326402!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cce0dfe52a11495%3A0x1b72b02a2fd624be!2s2136+Apple+Leaf+Way%2C+Orl%C3%A9ans%2C+ON+K1W+1J9!5e0!3m2!1sen!2sca!4v1457985569109" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                             </div>
@@ -208,7 +213,7 @@
                             Vaughan, ON, L4K 5Z7
                         </p>
                     </div>
-                    <div class="col s12 m6 l6">
+                    <div class="col s12 m6 l6 map">
                         <div class="video-container">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2880.0351022822074!2d-79.5319255841417!3d43.79288465140414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b2fbba52ab6a1%3A0x70f33bebdc04021!2sHilton+Garden+Inn+Toronto%2FVaughan!5e0!3m2!1sen!2sca!4v1457987506939" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                         </div>
@@ -220,27 +225,23 @@
                 <div class="divider"></div>
                 <div class="row">
                     <div class="col s12 m6 l6">
-                        <div class="card">
-                            <div class="card-content">
-                                <h5>When</h5>
-                                <p class="light">
-                                    Sunday, August 7, 2016<br>
-                                    <ul>
-                                        <li><strong>Cocktails</strong> being at 6 pm</li>
-                                        <li><strong>Program and dinner</strong> begins at 7 pm</li>
-                                        <li>Bring your dancing shoes!</li>
-                                    </ul>
-                                </p>
-                                <h5>Where</h5>
-                                <p class="light">
-                                    The Manor<br>
-                                    16750 Weston Road<br>
-                                    Kettleby, ON L0G 1J0
-                                </p>
-                            </div>
-                        </div>
+                        <h5>When</h5>
+                        <p class="light">
+                            Sunday, August 7, 2016<br>
+                            <ul>
+                                <li><strong>Cocktails</strong> begin at 6 pm</li>
+                                <li><strong>Program and dinner</strong> begins at 7 pm</li>
+                                <li>Bring your dancing shoes!</li>
+                            </ul>
+                        </p>
+                        <h5>Where</h5>
+                        <p class="light">
+                            The Manor<br>
+                            16750 Weston Road<br>
+                            Kettleby, ON L0G 1J0
+                        </p>
                     </div>
-                    <div class="col s12 m6 l6">
+                    <div class="col s12 m6 l6 map">
                         <div class="video-container">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2869.692426532635!2d-79.60456768413707!3d44.00708383749213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882ada2de142b471%3A0x788cbd162b19548f!2sThe+Manor+ByPeterandPauls.com!5e0!3m2!1sen!2sca!4v1457987935886" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
                         </div>
@@ -266,7 +267,7 @@
                 <li><i class="material-icons">mail</i>3201 Highway 7, Vaughan, ON, L4K 5Z7</li>
             </ul>
             <p>
-                To get the group rate, mention the 'Verma Gupta Wedding' and use our special rate code: <strong>VGW</strong><br><br>
+                To get the group rate, mention the <span class="pink-text">'Verma Gupta Wedding'</span> and use our special rate code: <span class="pink-text">VGW</span><br><br>
                 A shuttle will be provided to take guests from the hotel to the reception...more information to come.
             </p>
         </div>

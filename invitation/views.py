@@ -7,13 +7,6 @@ from django.core.urlresolvers import reverse
 from .models import Invitation, Guest
 import string
 
-def invitation_access_check(request, invitation_name):
-    """
-    Utility function to determine whether or not the guest has access to this
-    invitation or invitation function. Stop gap until I write out a decorator
-    """
-    return request.user.invitation.name == invitation_name
-
 def password_generator(name):
     """
     Utility function which generates a password based on the given name. based
