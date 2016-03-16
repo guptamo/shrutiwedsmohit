@@ -6,6 +6,7 @@
 
 // Google Color Palette defined: http://www.google.com/design/spec/style/color.html
 
+$navbar-bg: rgba(200, 100, 100, 0.5);
 
 $materialize-red: (
   "lighten-5":  #fdeaeb,
@@ -409,4 +410,3 @@ $colors: (
   @warn "Unknown `#{name}` in $colors.";
   @return null;
 }
-

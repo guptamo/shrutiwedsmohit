@@ -8,10 +8,10 @@
 
 {% block content %}
     <div class="navbar-fixed">
-        <nav class="pink">
+        <nav>
             <div class="nav-wrapper">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <ul class="nav-list right hide-on-med-and-down" style="font-size: 2rem;">
+                <ul class="nav-list right hide-on-med-and-down" >
                     {% include "invitation/navbar.html" %}
                 </ul>
                 <a href="#" class="brand-logo">shruti & mohit</a>
@@ -26,13 +26,13 @@
             <h2>Hero</h2>
         </div>
     </div>
-    <div class="container">
+    <div class="container" id="add-guest">
         {% if user.is_staff %}
             <div class="row">
                 <div class="col s12 m6 l6">
                     <div class="card">
                         <div class="card-content">
-                            <h4>Add Guest</h4>
+                            <h4 style="margin-top: 0;">Add Guest</h4>
                             <form action="{% url 'invitation:add_guest' invitation.name %}" method="post">
                                 {% csrf_token %}
                                 {% if add_guest_form.non_field_errors %}
@@ -40,7 +40,7 @@
                                         {{ add_guest_form.non_field_errors }}
                                     </div>
                                 {% endif %}
-                                <div class="row">
+                                <div class="row text-input">
                                     <p>Guest Name</p>
                                     <div class="col s9 m9 l9">
                                         {% for field in add_guest_form %}
@@ -48,8 +48,8 @@
                                             {{ field }}
                                         {% endfor %}
                                     </div>
-                                    <div class="col s3 m3 l3">
-                                        <input id="create" class="btn red" type="submit" value="Create"/>
+                                    <div class="col s3 m3 l3" style="padding-left: 0;">
+                                        <input id="create" class="btn" type="submit" value="Create"/>
                                     </div>
                                 </div>
                             </form>
@@ -59,13 +59,13 @@
             </div>
         {% endif %}
 
-        <div class="row">
+        <div class="row" id="rsvp">
             <h2 class="full-width pink"><a class="white-text" name="rsvp">RSVP</a></h2>
             {% for guest, form in guest_list %}
                 <div class="col s12 m6 l6">
                     <div class="card">
                         <div class="card-content">
-                            <span class="card-title">{{ guest.name }}</span>
+                            <h4 class="card-title">{{ guest.name }}</h4>
                             <form action="{% url 'invitation:update_guest' invitation.name guest.pk %}" method="post">
                                 {% csrf_token %}
                                 {% if form.non_field_errors %}
@@ -73,7 +73,7 @@
                                         {{ form.non_field_errors }}
                                     </div>
                                 {% endif %}
-                                <div class="row">
+                                <div class="row" style="margin-bottom:0;">
                                     {% if invitation.invited_sangeet %}
                                         <div class="col s6 m6 l6">
                                             <p>Sangeet</p>
@@ -97,13 +97,11 @@
                                                     <span class="lever"></span>
                                                     attending
                                                 </label>
-                                                <br>
                                             </div>
                                         </div>
                                     {% endif %}
                                     {% if invitation.invited_reception %}
                                         <div class="col s6 m6 l6">
-                                            <br>
                                             <p>Reception</p>
                                             <div class="switch">
                                                 {{ form.attending_reception.errors }}
@@ -112,28 +110,26 @@
                                                     <span class="lever"></span>
                                                     attending
                                                 </label>
-                                                <br>
                                             </div>
                                         </div>
                                     {% endif %}
                                     {% if invitation.invited_reception %}
                                     <div class="col s6 m6 l6">
                                         <div class="input-field">
-                                            <p>Reception Meal Choice</p>
                                             {{ form.meal_choice.errors }}
                                             {{ form.meal_choice }}
                                         </div>
                                     </div>
                                     {% endif %}
                                 </div>
-                                <div class="row">
+                                <div class="row text-input">
                                     <p>Note</p>
                                     {{ form.note.errors }}
                                     <div class="input-field col s12 l9">
                                         {{ form.note }}
                                     </div>
                                     <div class="col s6 l3">
-                                        <input id="create" class="btn red" type="submit" value="RSVP" />
+                                        <input id="create" class="btn" type="submit" value="RSVP" />
                                     </div>
                                 </div>
                             </form>
@@ -282,7 +278,7 @@
         </div>
     </div>
     <div class="container" id="social">
-        <h2 class="full-width pink"><a class="white-text" name="help">Social Media</a></h2>
+        <h2 class="full-width pink"><a class="white-text" name="social">Social Media</a></h2>
         <div class="row center-align">
             <p>
                 Nothing to see here yet but check back here on the day of the Sangeet to see pictures and messages from the events.<br><br>

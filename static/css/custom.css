@@ -26,10 +26,10 @@ nav {
 }
 
 nav .brand-logo {
-    font-size: 3rem;
+    font-size: 4rem;
 }
 
-ul.nav-list li{
+ul.nav-list a{
     font-size: 3rem !important;
 }
 #hero{
@@ -76,4 +76,9 @@ footer {
 
 .info-block {
     padding-left: 2rem !important;
+}
+
+.row.text-input {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }

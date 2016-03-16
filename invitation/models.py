@@ -8,8 +8,10 @@ class Invitation(models.Model):
     GUPTA = "gupta"
 
     INVITED_BY_CHOICES = (
+        (None, "Invited By"),
         (VERMA, "Verma Family"),
-        (GUPTA, "Gupta Family"),)
+        (GUPTA, "Gupta Family"),
+    )
 
     user = models.OneToOneField(User, null=True, blank=True)
     name = models.CharField(max_length=20, unique=True)
@@ -35,6 +37,7 @@ class Guest(models.Model):
     NON_VEG = "non-veg"
 
     MEAL_CHOICES = (
+        (None, "Reception Meal Choice"),
         (VEG, "Vegetarian"),
         (NON_VEG, "Non-vegetarian (Fish and Chicken)"),
     )
