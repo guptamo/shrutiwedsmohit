@@ -13,119 +13,250 @@
     <div class="container">
         <div class="row">
             <h1>Wedding Dashboard</h1>
-            <form class="" action="{% url 'invitation:add_invitation' %}" method="post">
-                <h4>Add Invitation</h4>
-                <div class="divider"></div><br>
-                {% csrf_token %}
-                {% if form.non_field_errors %}
+            <div class="col s12 m6 l6">
+                <form class="" action="{% url 'invitation:add_invitation' %}" method="post">
+                    <h4>Add Invitation</h4>
+                    <div class="divider"></div>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="row">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
                     <div class="row">
-                        {{ form.non_field_errors }}
-                    </div>
-                {% endif %}
-                <div class="row">
-                    <div class="input-field col s10 l5 offset-l1">
-                        {{ form.name.errors }}
-                        {{ form.name }}
-                        {{ form.name.label_tag }}
-                    </div>
-                    <div class="input-field col s7 l3">
-                        {{ form.invited_by.errors }}
-                        {{ form.invited_by }}
-                    </div>
-                </div>
-                <h5>Events</h5>
-                <div class="row">
-                    <div class="col s4 l2">
-                        <p>Sangeet</p>
-                        <div class="switch">
-                            {{ form.invited_sangeet.errors }}
-                            <label>
-                                {{ form.invited_sangeet }}
-                                <span class="lever"></span>
-                                invited
-                            </label>
+                        <div class="input-field col s10 l5 offset-l1">
+                            {{ form.name.errors }}
+                            {{ form.name }}
+                            {{ form.name.label_tag }}
+                        </div>
+                        <div class="input-field col s7 l3">
+                            {{ form.invited_by.errors }}
+                            {{ form.invited_by }}
                         </div>
                     </div>
-                    <div class="col s4 l2">
-                        <p>Ceremony</p>
-                        <div class="switch">
-                            {{ form.invited_ceremony.errors }}
-                            <label>
-                                {{ form.invited_ceremony }}
-                                <span class="lever"></span>
-                                invited
-                            </label>
+                    <div class="row">
+                        <div class="col s4 l4">
+                            <p>Sangeet</p>
+                            <div class="switch">
+                                {{ form.invited_sangeet.errors }}
+                                <label>
+                                    {{ form.invited_sangeet }}
+                                    <span class="lever"></span>
+                                    invited
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col s4 l4">
+                            <p>Ceremony</p>
+                            <div class="switch">
+                                {{ form.invited_ceremony.errors }}
+                                <label>
+                                    {{ form.invited_ceremony }}
+                                    <span class="lever"></span>
+                                    invited
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col s4 l4">
+                            <p>Reception</p>
+                            <div class="switch">
+                                {{ form.invited_reception.errors }}
+                                <label>
+                                    {{ form.invited_reception }}
+                                    <span class="lever"></span>
+                                    invited
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col s4 l2">
-                        <p>Reception</p>
-                        <div class="switch">
-                            {{ form.invited_reception.errors }}
-                            <label>
-                                {{ form.invited_reception }}
-                                <span class="lever"></span>
-                                invited
-                            </label>
+                    <div class="row">
+                        <div class="col s12 l3">
+                            <br>
+                            <input id="create" class="btn" type="submit" value="Invite" />
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s12 l3">
-                        <br>
-                        <input id="create" class="btn" type="submit" value="Invite" />
-                    </div>
-
-                </div>
-            </form>
-        </div>
-        {% if totals %}
-            <div class="row">
-                <h3>Invitation Stats</h3>
-                <table class="highlight responsive-table">
-                    <thead>
-                        <td></td>
-                        <td>Invitation Count</td>
-                        <td>Guest Count</td>
-                    </thead>
-                    <tbody>
-                        {% for name, invitations, guests in  totals %}
-                            <tr>
-                                <td>{{ name }}</td>
-                                <td>{{ invitations }}</td>
-                                <td>{{ guests }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                </form>
             </div>
-        {% endif %}
+            <div class="col s12 m6 l6">
+                <h4>Stats</h4>
+                <div class="divider"></div>
+                {% if stats %}
+                    <table class="highlight responsive-table">
+                        <thead>
+                            <td></td>
+                            <td>Invitation Count</td>
+                            <td>Guest Count</td>
+                        </thead>
+                        <tbody>
+                            {% for name, invitations, guests in  stats %}
+                                <tr>
+                                    <td>{{ name }}</td>
+                                    <td>{{ invitations }}</td>
+                                    <td>{{ guests }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h5>Nothing to see here...</h5>
+                {% endif %}
+            </div>
+        </div>
 
         <div class="row">
-            {% if invite_info %}
-                <h3>Invitations</h3>
-                <table class="highlight responsive-table">
-                    <thead>
-                        <td>Name</td>
-                        <td>Invited By</td>
-                        <td>Guest Count</td>
-                        <td>Password</td>
-                        <td>Link</td>
-                    </thead>
-                    <tbody>
-                        {% for invitation, password in invite_info %}
+            <h3>Lists</h3>
+            <div class="col s12">
+                <ul class="tabs">
+                    <li class="tab col s6"><a href="#invitations" class="black-text">Invitations</a></li>
+                    <li class="tab col s6"><a href="#guests" class="black-text">Guests</a></li>
+                </ul>
+            </div>
+            <div id="invitations" class="col s12">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="tab col s4"><a href="#all-invitations" class="black-text">All</a></li>
+                        <li class="tab col s4"><a href="#gupta-invitations" class="black-text">Gupta</a></li>
+                        <li class="tab col s4"><a href="#verma-invitations" class="black-text">Verma</a></li>
+                    </ul>
+                </div>
+                <div id="all-invitations" class="col s12">
+                    <table class="highlight responsive-table">
+                        <thead>
+                            <td>Name</td>
+                            <td>Invited By</td>
+                            <td>Guest Count</td>
+                            <td>Password</td>
+                            <td>Link</td>
+                        </thead>
+                        <tbody>
+                            {% for invitation in lizts.0 %}
+                                <tr>
+                                    <td>{{ invitation.name }}</td>
+                                    <td>{{ invitation.invited_by }}</td>
+                                    <td>{{ invitation.guest__count }}</td>
+                                    <td>{{ invitation.password }}</td>
+                                    <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="gupta-invitations" class="col s12">
+                    <table class="highlight responsive-table">
+                        <thead>
+                            <td>Name</td>
+                            <td>Guest Count</td>
+                            <td>Password</td>
+                            <td>Link</td>
+                        </thead>
+                        <tbody>
+                            {% for invitation in lizts.1 %}
+                                <tr>
+                                    <td>{{ invitation.name }}</td>
+                                    <td>{{ invitation.guest__count }}</td>
+                                    <td>{{ invitation.password }}</td>
+                                    <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="verma-invitations" class="col s12">
+                    <table class="highlight responsive-table">
+                        <thead>
+                            <td>Name</td>
+                            <td>Guest Count</td>
+                            <td>Password</td>
+                            <td>Link</td>
+                        </thead>
+                        <tbody>
+                            {% for invitation in lizts.2 %}
                             <tr>
                                 <td>{{ invitation.name }}</td>
-                                <td>{{ invitation.invited_by }}</td>
                                 <td>{{ invitation.guest__count }}</td>
-                                <td>{{ password }}</td>
+                                <td>{{ invitation.password }}</td>
                                 <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <h3>You Haven't Invited Anyone Yet...Do It!</h3>
-            {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <div id="guests" class="col s12">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="tab col s4"><a href="#all-guests" class="black-text">All</a></li>
+                        <li class="tab col s4"><a href="#gupta-guests" class="black-text">Gupta</a></li>
+                        <li class="tab col s4"><a href="#verma-guests" class="black-text">Verma</a></li>
+                    </ul>
+                </div>
+                <div id="all-guests" class="col s12">
+                    <table class="highlight responsive-table"v>
+                        <thead>
+                            <td>Name</td>
+                            <td>Invitation Name</td>
+                            <td>Password</td>
+                            <td>Invited By</td>
+                            <td>Link</td>
+                        </thead>
+                        <tbody>
+                            {% for guest in lizts.3 %}
+                                <tr>
+                                    <td>{{ guest.name }}</td>
+                                    <td>{{ guest.invitation.name }}</td>
+                                    <td>{{ guest.invitation.password }}</td>
+                                    <td>{{ guest.invitation.invited_by }}</td>
+                                    <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="gupta-guests" class="col s12">
+                    <table class="highlight responsive-table">
+                        <thead>
+                            <td>Name</td>
+                            <td>Invitation Name</td>
+                            <td>Password</td>
+                            <td>Link</td>
+                        </thead>
+                        <tbody>
+                            {% for guest in lizts.4 %}
+                                <tr>
+                                    <td>{{ guest.name }}</td>
+                                    <td>{{ guest.invitation.name }}</td>
+                                    <td>{{ guest.invitation.password }}</td>
+                                    <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="verma-guests" class="col s12">
+                    <table class="highlight responsive-table">
+                        <thead>
+                            <td>Name</td>
+                            <td>Invitation Name</td>
+                            <td>Password</td>
+                            <td>Link</td>
+                        </thead>
+                        <tbody>
+                            {% for guest in lizts.5 %}
+                                <tr>
+                                    <td>{{ guest.name }}</td>
+                                    <td>{{ guest.invitation.name }}</td>
+                                    <td>{{ guest.invitation.password }}</td>
+                                    <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock content %}

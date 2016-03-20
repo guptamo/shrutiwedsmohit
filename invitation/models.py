@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+import string
 
 
 class Invitation(models.Model):
@@ -30,6 +31,19 @@ class Invitation(models.Model):
 
     def get_absolute_url(self):
         return reverse("invitation:invitation", args=[self.name])
+
+    def password(self):
+        letters = [letter for letter in string.ascii_lowercase]
+        letters_to_numbers = dict(zip(letters, range(26)))
+
+        raw_password = ""
+        for character in self.name:
+            if character.isalpha():
+                raw_password += str(letters_to_numbers[character.lower()])
+            else:
+                raw_password += str(character)
+
+        return raw_password[-6:]
 
 # Create your models here.
 class Guest(models.Model):

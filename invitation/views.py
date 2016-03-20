@@ -36,6 +36,29 @@ def dashboard(request):
         [password_generator(invitation.name) for invitation in invitations]
     invite_info = tuple(zip(invitations, passwords))
 
+    all_invitations = invitations
+    gupta_invitations = invitations.filter(
+        invited_by="gupta").annotate(
+            Count("guest")
+        )
+    verma_invitations = invitations.filter(
+        invited_by="verma").annotate(
+            Count("guest")
+        )
+
+    all_guests = guests
+    gupta_guests = guests.filter(invitation__invited_by="gupta")
+    verma_guests = guests.filter(invitation__invited_by="verma")
+
+    lizts = (
+        all_invitations,
+        gupta_invitations,
+        verma_invitations,
+        all_guests,
+        gupta_guests,
+        verma_guests
+    )
+
     total = (
         "Total",
         invitations.count(),
@@ -43,20 +66,22 @@ def dashboard(request):
     )
     gupta = (
         "Gupta Family",
-        invitations.filter(invited_by="gupta").count(),
-        guests.filter(invitation__invited_by="gupta").count(),
+        gupta_invitations.count(),
+        gupta_guests.count(),
     )
     verma = (
         "Verma Family",
-        invitations.filter(invited_by="verma").count(),
-        guests.filter(invitation__invited_by="verma").count(),
+        verma_invitations.count(),
+        verma_guests.count(),
     )
-    totals = (gupta, verma, total)
+
+    stats = (gupta, verma, total)
 
     context = {
         "form": form,
         "invite_info": invite_info,
-        "totals": totals,
+        "stats": stats,
+        "lizts": lizts,
     }
     return render(request, "invitation/dashboard.html", context)
 
