@@ -5,6 +5,7 @@ from .forms import InvitationForm, AddGuestForm, UpdateGuestForm
 from django.forms import modelformset_factory
 from django.core.urlresolvers import reverse
 from .models import Invitation, Guest
+from django.db.models import Count
 import string
 
 def password_generator(name):
@@ -29,13 +30,33 @@ def password_generator(name):
 @user_passes_test(lambda u: u.is_staff)
 def dashboard(request):
     form = InvitationForm()
-    invitations = Invitation.objects.all().order_by("name")
+    invitations = Invitation.objects.all().order_by("name").annotate(Count('guest'))
+    guests = Guest.objects.all()
     passwords = \
         [password_generator(invitation.name) for invitation in invitations]
     invite_info = tuple(zip(invitations, passwords))
+
+    total = (
+        "Total",
+        invitations.count(),
+        guests.count(),
+    )
+    gupta = (
+        "Gupta Family",
+        invitations.filter(invited_by="gupta").count(),
+        guests.filter(invitation__invited_by="gupta").count(),
+    )
+    verma = (
+        "Verma Family",
+        invitations.filter(invited_by="verma").count(),
+        guests.filter(invitation__invited_by="verma").count(),
+    )
+    totals = (gupta, verma, total)
+
     context = {
         "form": form,
-        "invite_info": invite_info
+        "invite_info": invite_info,
+        "totals": totals,
     }
     return render(request, "invitation/dashboard.html", context)
 

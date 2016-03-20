@@ -8,7 +8,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Login | Shruti and Mohit's Wedding Site</title>
         <!--Import Google Icon Font-->
-        <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
         <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.css' %}"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="{% static 'css/custom_login.css' %}"  media="screen,projection"/>
 	</head>
@@ -48,7 +47,7 @@
                     {{ form.username }}
                     {{ form.password.label_tag }}
                     {{ form.password }}
-                    <input type="submit" value="login" id="login" class="login-btn"/>
+                    <input type="submit" value="login" id="login" class="btn login-btn"/>
                     <input type="hidden" name="next" value="{{ next }}" />
                 </form>
             </div>

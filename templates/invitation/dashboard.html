@@ -78,25 +78,45 @@
                 </div>
             </form>
         </div>
+        {% if totals %}
+            <div class="row">
+                <h3>Invitation Stats</h3>
+                <table class="highlight responsive-table">
+                    <thead>
+                        <td></td>
+                        <td>Invitation Count</td>
+                        <td>Guest Count</td>
+                    </thead>
+                    <tbody>
+                        {% for name, invitations, guests in  totals %}
+                            <tr>
+                                <td>{{ name }}</td>
+                                <td>{{ invitations }}</td>
+                                <td>{{ guests }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
         <div class="row">
             {% if invite_info %}
-                <h2>Invitations</h2>
-                <table class="highlight respnsive-table">
+                <h3>Invitations</h3>
+                <table class="highlight responsive-table">
                     <thead>
-                        <td>
-                            Name
-                        </td>
-                        <td>
-                            Password
-                        </td>
-                        <td>
-                            Link
-                        </td>
+                        <td>Name</td>
+                        <td>Invited By</td>
+                        <td>Guest Count</td>
+                        <td>Password</td>
+                        <td>Link</td>
                     </thead>
                     <tbody>
                         {% for invitation, password in invite_info %}
                             <tr>
                                 <td>{{ invitation.name }}</td>
+                                <td>{{ invitation.invited_by }}</td>
+                                <td>{{ invitation.guest__count }}</td>
                                 <td>{{ password }}</td>
                                 <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
                             </tr>
@@ -104,7 +124,7 @@
                     </tbody>
                 </table>
             {% else %}
-                <h2>You Haven't Invited Anyone Yet...Do It!</h2>
+                <h3>You Haven't Invited Anyone Yet...Do It!</h3>
             {% endif %}
         </div>
     </div>
