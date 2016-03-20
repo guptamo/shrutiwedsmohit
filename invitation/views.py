@@ -8,33 +8,12 @@ from .models import Invitation, Guest
 from django.db.models import Count
 import string
 
-def password_generator(name):
-    """
-    Utility function which generates a password based on the given name. based
-    off a super basic caesar cypher.
-    """
-    letters = [letter for letter in string.ascii_lowercase]
-    letters_to_numbers = dict(zip(letters, range(26)))
-
-    raw_password = ""
-    for character in name:
-        if character.isalpha():
-            raw_password += str(letters_to_numbers[character.lower()])
-        else:
-            raw_password += str(character)
-
-    password = raw_password[-6:]
-    return password
-
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def dashboard(request):
     form = InvitationForm()
     invitations = Invitation.objects.all().order_by("name").annotate(Count('guest'))
     guests = Guest.objects.all()
-    passwords = \
-        [password_generator(invitation.name) for invitation in invitations]
-    invite_info = tuple(zip(invitations, passwords))
 
     all_invitations = invitations
     gupta_invitations = invitations.filter(
@@ -79,7 +58,6 @@ def dashboard(request):
 
     context = {
         "form": form,
-        "invite_info": invite_info,
         "stats": stats,
         "lizts": lizts,
     }
@@ -124,7 +102,7 @@ def add_invitation(request):
             invitation = form.save()
             user = User.objects.create_user(
                 username=form.cleaned_data["name"],
-                password=password_generator(form.cleaned_data["name"]))
+                password=invitation.password())
             invitation.user = user
             invitation.save()
     return redirect(reverse("invitation:dashboard"))

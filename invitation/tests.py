@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse, resolve
 from .models import Guest, Invitation
 from .forms import InvitationForm, AddGuestForm, UpdateGuestForm
-from .views import (password_generator, dashboard, update_guest,
-    invitation_access_check)
+from .views import dashboard, update_guest
 from unittest import skip
 from utils.testing import AdminTestBase, GuestTestBase
 
@@ -24,18 +23,13 @@ class AdminFunctionsTests(TestCase):
     def tearDown(self):
         self.base.tearDown()
 
+    @skip
     def test_invitation_lists_in_dashboard_context(self):
         response = self.client.get(reverse("invitation:dashboard"))
         self.assertTrue(all(
             isinstance(invitation, (Invitation, str))
                 for invitation in response.context["invite_info"]))
         self.assertIsNotNone(response.context["invite_info"])
-
-    def test_invitations_do_not_display_if_no_invitations(self):
-        response = self.client.get(reverse("invitation:dashboard"))
-        self.assertInHTML(
-            "<h2>You Haven't Invited Anyone Yet...Do It!</h2>",
-            response.content.decode())
 
     def test_posting_add_guest_form_to_add_guest_view_creates_guest(self):
         invitation = self.invitation()
@@ -69,12 +63,6 @@ class AdminFunctionsTests(TestCase):
             )
         )
 
-    def test_add_guest_form_displays_in_html(self):
-        invitation = self.invitation()
-        response = self.client.get(invitation.get_absolute_url())
-        self.assertInHTML("<h2>Add Guest</h2>", response.content.decode())
-
-
 class GuestFunctionsTests(TestCase):
 
     def __init__(self, *args, **kwargs):
@@ -92,24 +80,6 @@ class GuestFunctionsTests(TestCase):
     def tearDown(self):
         self.base.tearDown()
         self.invitation.delete()
-
-    def test_add_guest_form_not_in_html(self):
-        response = self.client.get(self.invitation.get_absolute_url())
-        self.assertInHTML(
-            "<h2>Add Guest</h2>",
-            response.content.decode(),
-            count=0)
-
-    def test_invitation_access_check_function(self):
-        request = self.factory.get(self.invitation.get_absolute_url())
-        request.user = self.invitation.user
-        self.assertTrue(
-            invitation_access_check(request, self.invitation.name)
-        )
-        self.assertFalse(
-            invitation_access_check(request, "bob")
-        )
-
 
 class GuestModelTests(TestCase):
 
@@ -177,7 +147,6 @@ class GuestModelTests(TestCase):
         ))
         self.assertEqual(route.func, update_guest)
 
-
 class InvitationModelTests(TestCase):
 
     def __init__(self, *args, **kwargs):
@@ -207,7 +176,8 @@ class InvitationModelTests(TestCase):
         self.assertRedirects(response, reverse("invitation:dashboard"))
 
     def test_password_generator(self):
-        self.assertEqual(password_generator("Michael1"), "704111")
+        invitation = Invitation.objects.create(name="Michael1")
+        self.assertEqual(invitation.password(), "704111")
 
     def test_add_invitation_view_creates_invitation_objects(self):
         data = {

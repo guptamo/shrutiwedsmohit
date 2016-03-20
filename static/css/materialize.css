@@ -3093,7 +3093,7 @@ td, th {
 }
 
 .collection .collection-item.active {
-  background-color: #ffa726;
+  background-color: #ee4758;
   color: white;
 }
 
@@ -3108,7 +3108,7 @@ td, th {
   -o-transition: 0.25s;
   -ms-transition: 0.25s;
   transition: 0.25s;
-  color: #ffa726;
+  color: #ee4758;
 }
 
 .collection a.collection-item:not(.active):hover {
@@ -3131,7 +3131,7 @@ td, th {
 
 .secondary-content {
   float: right;
-  color: #ffa726;
+  color: #ee4758;
 }
 
 .collapsible .collection {
@@ -3157,7 +3157,7 @@ span.badge.new {
   font-weight: 300;
   font-size: 0.8rem;
   color: #fff;
-  background-color: #ffa726;
+  background-color: #ee4758;
   border-radius: 2px;
 }
 
@@ -3191,7 +3191,7 @@ nav ul a span.badge {
   height: 4px;
   display: block;
   width: 100%;
-  background-color: #fffaf2;
+  background-color: white;
   border-radius: 2px;
   margin: 0.5rem 0 1rem 0;
   overflow: hidden;
@@ -3203,7 +3203,7 @@ nav ul a span.badge {
   top: 0;
   left: 0;
   bottom: 0;
-  background-color: #ffa726;
+  background-color: #ee4758;
   -webkit-transition: width 0.3s linear;
   -moz-transition: width 0.3s linear;
   -o-transition: width 0.3s linear;
@@ -3212,7 +3212,7 @@ nav ul a span.badge {
 }
 
 .progress .indeterminate {
-  background-color: #ffa726;
+  background-color: #ee4758;
 }
 
 .progress .indeterminate:before {
@@ -7274,7 +7274,7 @@ nav ul a span.badge {
 
 nav {
   color: #fff;
-  background-color: rgba(200, 100, 100, 0.8);
+  background-color: rgba(238, 71, 88, 0.8);
   width: 100%;
   height: 56px;
   line-height: 56px;
@@ -8096,7 +8096,7 @@ small {
 .btn, .btn-large {
   text-decoration: none;
   color: #fff;
-  background-color: #ffa726;
+  background-color: #ee4758;
   text-align: center;
   letter-spacing: .5px;
   -webkit-transition: 0.2s ease-out;
@@ -8108,7 +8108,7 @@ small {
 }
 
 .btn:hover, .btn-large:hover {
-  background-color: #ffb140;
+  background-color: #f05e6d;
 }
 
 .btn-floating {
@@ -8121,7 +8121,7 @@ small {
   height: 37px;
   line-height: 37px;
   padding: 0;
-  background-color: #ffa726;
+  background-color: #ee4758;
   border-radius: 50%;
   transition: .3s;
   cursor: pointer;
@@ -8269,7 +8269,7 @@ button.btn-floating {
 
 .dropdown-content li > a, .dropdown-content li > span {
   font-size: 16px;
-  color: #ffa726;
+  color: #ee4758;
   display: block;
   line-height: 22px;
   padding: 14px 16px;
@@ -8681,7 +8681,7 @@ select:focus {
 
 button:focus {
   outline: none;
-  background-color: #ffaf3a;
+  background-color: #f05a69;
 }
 
 label {
@@ -8798,8 +8798,8 @@ input[type=tel]:focus:not([readonly]),
 input[type=number]:focus:not([readonly]),
 input[type=search]:focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #ffa726;
-  box-shadow: 0 1px 0 0 #ffa726;
+  border-bottom: 1px solid #ee4758;
+  box-shadow: 0 1px 0 0 #ee4758;
 }
 
 input[type=text]:focus:not([readonly]) + label,
@@ -8813,7 +8813,7 @@ input[type=tel]:focus:not([readonly]) + label,
 input[type=number]:focus:not([readonly]) + label,
 input[type=search]:focus:not([readonly]) + label,
 textarea.materialize-textarea:focus:not([readonly]) + label {
-  color: #ffa726;
+  color: #ee4758;
 }
 
 input[type=text].valid,
@@ -8981,7 +8981,7 @@ textarea.materialize-textarea + label:after {
 }
 
 .input-field .prefix.active {
-  color: #ffa726;
+  color: #ee4758;
 }
 
 .input-field .prefix ~ input,
@@ -9150,8 +9150,8 @@ textarea.materialize-textarea {
 
 [type="radio"]:checked + label:after {
   border-radius: 50%;
-  border: 2px solid #ffa726;
-  background-color: #ffa726;
+  border: 2px solid #ee4758;
+  background-color: #ee4758;
   z-index: 0;
   -webkit-transform: scale(1.02);
   -moz-transform: scale(1.02);
@@ -9163,13 +9163,13 @@ textarea.materialize-textarea {
 /* Radio With gap */
 [type="radio"].with-gap:checked + label:before {
   border-radius: 50%;
-  border: 2px solid #ffa726;
+  border: 2px solid #ee4758;
 }
 
 [type="radio"].with-gap:checked + label:after {
   border-radius: 50%;
-  border: 2px solid #ffa726;
-  background-color: #ffa726;
+  border: 2px solid #ee4758;
+  background-color: #ee4758;
   z-index: 0;
   -webkit-transform: scale(0.5);
   -moz-transform: scale(0.5);
@@ -9281,8 +9281,8 @@ form p:last-child {
   height: 22px;
   border-top: 2px solid transparent;
   border-left: 2px solid transparent;
-  border-right: 2px solid #ffa726;
-  border-bottom: 2px solid #ffa726;
+  border-right: 2px solid #ee4758;
+  border-bottom: 2px solid #ee4758;
   -webkit-transform: rotate(40deg);
   -moz-transform: rotate(40deg);
   -ms-transform: rotate(40deg);
@@ -9309,7 +9309,7 @@ form p:last-child {
   height: 22px;
   border-top: none;
   border-left: none;
-  border-right: 2px solid #ffa726;
+  border-right: 2px solid #ee4758;
   border-bottom: none;
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
@@ -9383,8 +9383,8 @@ form p:last-child {
   top: 0px;
   width: 20px;
   height: 20px;
-  border: 2px solid #ffa726;
-  background-color: #ffa726;
+  border: 2px solid #ee4758;
+  background-color: #ee4758;
   z-index: 0;
 }
 
@@ -9433,11 +9433,11 @@ form p:last-child {
 }
 
 .switch label input[type=checkbox]:checked + .lever {
-  background-color: #f4d9b1;
+  background-color: #f0c5c9;
 }
 
 .switch label input[type=checkbox]:checked + .lever:after {
-  background-color: #ffa726;
+  background-color: #ee4758;
 }
 
 .switch label .lever {
@@ -9469,7 +9469,7 @@ form p:last-child {
 }
 
 input[type=checkbox]:checked:not(:disabled) ~ .lever:active:after {
-  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(255, 167, 38, 0.1);
+  box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.4), 0 0 0 15px rgba(238, 71, 88, 0.1);
 }
 
 input[type=checkbox]:not(:disabled) ~ .lever:active:after {
@@ -9660,7 +9660,7 @@ input[type=range] + .thumb {
   height: 0;
   width: 0;
   border-radius: 50%;
-  background-color: #ffa726;
+  background-color: #ee4758;
   top: 10px;
   margin-left: -6px;
   -webkit-transform-origin: 50% 50%;
@@ -9679,7 +9679,7 @@ input[type=range] + .thumb .value {
   display: block;
   width: 30px;
   text-align: center;
-  color: #ffa726;
+  color: #ee4758;
   font-size: 0;
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
@@ -9719,7 +9719,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background-color: #ffa726;
+  background-color: #ee4758;
   transform-origin: 50% 50%;
   margin: -5px 0 0 0;
   -webkit-transition: 0.3s;
@@ -9750,7 +9750,7 @@ input[type=range]::-moz-range-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #ffa726;
+  background: #ee4758;
   margin-top: -5px;
 }
 
@@ -9788,7 +9788,7 @@ input[type=range]::-ms-thumb {
   height: 14px;
   width: 14px;
   border-radius: 50%;
-  background: #ffa726;
+  background: #ee4758;
 }
 
 input[type=range]:focus::-ms-fill-lower {
@@ -10009,7 +10009,7 @@ select {
   width: 100%;
   height: 100%;
   opacity: 0;
-  border-color: #ffa726;
+  border-color: #ee4758;
 }
 
 .spinner-blue,
@@ -11027,7 +11027,7 @@ select {
 
 .picker__date-display {
   text-align: center;
-  background-color: #ffa726;
+  background-color: #ee4758;
   color: #fff;
   padding-bottom: 15px;
   font-weight: 300;
@@ -11037,11 +11037,11 @@ select {
 .picker__nav--next:hover {
   cursor: pointer;
   color: #000000;
-  background: #fcefdb;
+  background: #fbecee;
 }
 
 .picker__weekday-display {
-  background-color: #ff9902;
+  background-color: #eb263a;
   padding: 10px;
   font-weight: 200;
   letter-spacing: .5;
@@ -11090,7 +11090,7 @@ select {
 }
 
 .picker__day.picker__day--today {
-  color: #ffa726;
+  color: #ee4758;
 }
 
 .picker__day.picker__day--today.picker__day--selected {
@@ -11110,14 +11110,14 @@ select {
   -ms-transform: scale(0.9);
   -o-transform: scale(0.9);
   transform: scale(0.9);
-  background-color: #ffa726;
+  background-color: #ee4758;
   color: #ffffff;
 }
 
 .picker__day--selected.picker__day--outfocus,
 .picker__day--selected:hover.picker__day--outfocus,
 .picker--focused .picker__day--selected.picker__day--outfocus {
-  background-color: #fcefdb;
+  background-color: #fbecee;
 }
 
 .picker__footer {
@@ -11128,7 +11128,7 @@ select {
 .picker__close, .picker__today {
   font-size: 1.1rem;
   padding: 0 1rem;
-  color: #ffa726;
+  color: #ee4758;
 }
 
 .picker__nav--prev:before,
@@ -11149,7 +11149,7 @@ select {
 }
 
 button.picker__today:focus, button.picker__clear:focus, button.picker__close:focus {
-  background-color: #fcefdb;
+  background-color: #fbecee;
 }
 
 /* ==========================================================================

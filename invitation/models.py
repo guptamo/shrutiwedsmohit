@@ -33,6 +33,10 @@ class Invitation(models.Model):
         return reverse("invitation:invitation", args=[self.name])
 
     def password(self):
+        """
+        Utility function which generates a password based on the given name. based
+        off a super basic caesar cypher.
+        """
         letters = [letter for letter in string.ascii_lowercase]
         letters_to_numbers = dict(zip(letters, range(26)))
 
