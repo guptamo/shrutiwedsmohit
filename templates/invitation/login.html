@@ -9,11 +9,12 @@
 		<title>Login | Shruti and Mohit's Wedding Site</title>
         <!--Import Google Icon Font-->
         <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+        <link type="text/css" rel="stylesheet" href="{% static 'css/materialize.css' %}"  media="screen,projection"/>
         <link type="text/css" rel="stylesheet" href="{% static 'css/custom_login.css' %}"  media="screen,projection"/>
 	</head>
 	<body>
         {% if user.is_authenticated %}
-            <div class="logo"></div>
+            <img src="{% static 'img/ganesh_ji.gif' %}" class="new-logo"/>
             <div class="login-block">
                 <h1 class="center-align">You lost bro?</h1>
                 {% if user.is_staff %}
@@ -24,7 +25,9 @@
                 <a href="{% url 'logout' %}" class="center-align">Logout</a>
             </div>
         {% else %}
-            <div class="logo"></div>
+            <img src="{% static 'img/left_corner.png' %}" id="left-corner" class="hide-on-small-only"/>
+            <img src="{% static 'img/right_corner.png' %}" id="right-corner" class="hide-on-small-only"/>
+            <img src="{% static 'img/ganesh_ji.gif' %}" class="new-logo"/>
             <div class="login-block">
                 <form method="post" action="{% url 'login' %}">
                     <h1>Login</h1>
@@ -50,5 +53,8 @@
                 </form>
             </div>
         {% endif %}
+        <script type="text/javascript" src="{% static 'js/bin/jquery.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bin/materialize.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/bin/custom.js' %}"></script>
 	</body>
 </html>
