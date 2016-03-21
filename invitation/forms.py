@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Textarea
+from django.forms import ModelForm, Textarea, SlugField
 from .models import Guest, Invitation
 
 
@@ -14,7 +14,9 @@ class InvitationForm(ModelForm):
             "invited_reception"
         ]
 
-        label_suffix = {field: "" for field in fields}
+        field_classes = {
+            "name" : SlugField,
+        }
 
 
 
@@ -44,5 +46,5 @@ class UpdateGuestForm(ModelForm):
                 "placeholder": "Food Allergies? Are you a child? Anything else we need to know?",
             })
         }
-        
+
         label_suffix = {field: "" for field in fields}

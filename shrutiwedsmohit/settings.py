@@ -28,10 +28,17 @@ SECRET_KEY = secrets.SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# More security stuff, dingus
 if DEBUG:
     ALLOWED_HOSTS = []
 else:
-    ALLOWED_HOSTS = ["shrutiwedsmohit.com"]
+    ALLOWED_HOSTS = [
+        "shrutiwedsmohit.com",
+        "www.shrutiwedsmohit.com"
+    ]
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 # Application definition

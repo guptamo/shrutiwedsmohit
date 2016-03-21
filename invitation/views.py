@@ -11,7 +11,6 @@ import string
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def dashboard(request):
-    form = InvitationForm()
     invitations = Invitation.objects.all().order_by("name").annotate(Count('guest'))
     guests = Guest.objects.all()
 
