@@ -37,8 +37,8 @@ else:
         "www.shrutiwedsmohit.com"
     ]
 
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 # Application definition
 
@@ -124,3 +124,6 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '../static/'))
 
 LOGIN_URL = reverse_lazy("login")
 LOGIN_REDIRECT_URL = reverse_lazy("login_redirect")
+
+# Message settings
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

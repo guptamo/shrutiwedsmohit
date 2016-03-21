@@ -17,11 +17,11 @@
             <div class="login-block">
                 <h1 class="center-align">You lost bro?</h1>
                 {% if user.is_staff %}
-                    <a href="{% url 'invitation:dashboard' %}" class="center-align">Back to Dashboard</a>
+                    <a href="{% url 'invitation:dashboard' %}" class="btn center-align">Back to Dashboard</a>
                 {% else %}
-                    <a href="{{ user.invitation.get_absolute_url }}" class="center-align">Back To Invitation</a>
+                    <a href="{{ user.invitation.get_absolute_url }}" class=" btn center-align">Back To Invitation</a>
                 {% endif %}
-                <a href="{% url 'logout' %}" class="center-align">Logout</a>
+                <a href="{% url 'logout' %}" class="btn center-align">Logout</a>
             </div>
         {% else %}
             <img src="{% static 'img/left_corner.png' %}" id="left-corner" class="hide-on-small-only"/>

@@ -44,6 +44,8 @@ class Invitation(models.Model):
         for character in self.name:
             if character.isalpha():
                 raw_password += str(letters_to_numbers[character.lower()])
+            elif character == "_" or character == "-":
+                raw_password += str(character)
             else:
                 raw_password += str(character)
 

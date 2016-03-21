@@ -6,6 +6,7 @@ from django.forms import modelformset_factory
 from django.core.urlresolvers import reverse
 from .models import Invitation, Guest
 from django.db.models import Count
+from django.contrib import messages
 import string
 
 @login_required
@@ -91,6 +92,15 @@ def add_guest(request, invitation_name):
             guest = form.save()
             guest.invitation = invitation
             guest.save()
+            messages.success(
+                request,
+                "Added {}".format(form.cleaned_data["name"])
+            )
+        else:
+            messages.error(
+                request,
+                "Uh oh...somethings not right"
+            )
     return redirect(invitation)
 
 @login_required
@@ -105,6 +115,15 @@ def add_invitation(request):
                 password=invitation.password())
             invitation.user = user
             invitation.save()
+            messages.success(
+                request,
+                "created {} invitation".format(form.cleaned_data["name"])
+            )
+        else:
+            messages.error(
+                request,
+                "sorry that is not a valid invitation"
+            )
     return redirect(reverse("invitation:dashboard"))
 
 @login_required
@@ -117,4 +136,13 @@ def update_guest(request, invitation_name, guest_pk):
         form = UpdateGuestForm(request.POST, instance=guest)
         if form.is_valid():
             form.save()
+            messages.success(
+                request,
+                "saved {}'s rsvp".format(guest.name)
+            )
+        else:
+            messages.error(
+                request,
+                "something's not right"
+            )
     return redirect(invitation)
