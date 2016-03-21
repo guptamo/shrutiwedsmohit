@@ -14,9 +14,12 @@
         {% block head_scripts %}{% endblock head_scripts %}
 	</head>
 	<body>
-	{% block content %}
-		Stuff goes in here
-	{% endblock content %}
+        <main>
+            {% block content %}
+        		Stuff goes in here
+        	{% endblock content %}
+        </main>
+    	
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="{% static 'js/bin/jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/bin/materialize.min.js' %}"></script>
