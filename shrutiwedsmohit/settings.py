@@ -39,6 +39,8 @@ else:
 
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    ADMINS = [("Mohit", "mo@mohitgupta.ca")]
+    SERVER_EMAIL = "server@shrutiwedsmohit.ca"
 
 # Application definition
 

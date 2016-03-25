@@ -43,7 +43,7 @@ class UpdateGuestForm(ModelForm):
         widgets = {
             "note": Textarea(attrs={
                 "class": "materialize-textarea",
-                "placeholder": "Food Allergies? Are you a child? Anything else we need to know?",
+                "placeholder": "Food Allergies? Want to say hi? Anything really...let us know!",
             })
         }
 

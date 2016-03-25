@@ -28,13 +28,8 @@
         </nav>
     </div>
     <div id="hero">
-        <div class="header">
-            <h2>Hero</h2>
-        </div>
-    </div>
-    <div class="container" id="add-guest">
         {% if user.is_staff %}
-            <div class="row">
+            <div class="row" id="add-guest">
                 <div class="col s12 m6 l6">
                     <div class="card">
                         <div class="card-content">
@@ -64,9 +59,10 @@
                 </div>
             </div>
         {% endif %}
-
+    </div>
+    <div class="container">
         <div class="row" id="rsvp">
-            <h2 class="full-width pink"><a class="white-text" name="rsvp">RSVP</a></h2>
+            <h2><a class="pink-text" name="rsvp">rsvp</a></h2>
             {% for guest, form in guest_list %}
                 <div class="col s12 m6 l6">
                     <div class="card">
@@ -145,9 +141,12 @@
             {% endfor %}
         </div>
     </div>
+    <div class="parallax-container">
+        <div class="parallax"><img src={% static 'img/parallax/parallax2.jpg' %} alt="Shruti and Mohit at a Water Treatment Facility" /></div>
+    </div>
     <div class="container" id="info">
-        <h2 class="full-width pink"><a class="white-text" name="#info">Info</a></h2>
         <div class="row">
+            <h2><a class="purple-text text-lighten-1" name="#info">info</a></h2>
             {% if invitation.invited_sangeet %}
                 <h4 class="orange-text">Sangeet</h4>
                 <div class="divider"></div>
@@ -252,9 +251,12 @@
             {% endif %}
         </div>
     </div>
+    <div class="parallax-container">
+        <div class="parallax"><img src={% static 'img/parallax/parallax6.jpg' %} alt="Shruti and Mohit Beside a wall" /></div>
+    </div>
     <div class="container" id="accommodation">
-        <h2 class="full-width pink"><a class="white-text" name="accommodation">Travel & Accommodations</a></h2>
         <div class="row center-align">
+            <h2 class="center-align"><a class="orange-text" name="accommodation">travel & accommodation</a></h2>
             <p>
                 A block of rooms has been reserved at the
             </p>
@@ -276,6 +278,9 @@
 
             </p>
         </div>
+    </div>
+    <div class="parallax-container">
+        <div class="parallax"><img src={% static 'img/parallax/parallax8.jpg' %} alt="Shruti and Mohit Beside a wall" /></div>
     </div>
     <div class="row">
         <div class="col s12 m8 l9">
@@ -306,7 +311,7 @@
                       <img src="{% static 'img/slider/slider8.jpg' %}">
                     </li>
                     <li>
-                      <img src="{% static 'img/slider/slider9.jpg' %}">
+                      <img src="{% static 'img/slider/giphy.gif' %}">
                     </li>
                 </ul>
             </div>
@@ -315,15 +320,17 @@
             <br>
                 <h2 class="center-align"><a class="black-text" name="help">We Need Your Help!</a></h2>
                 <p class="center-align">
-                    All the pictures on this site are just of Shruti and I. We're not narcissists, we swear! We're looking to collect pictures of moments that we've shared with you. If you have any pictures you would like to share, please email them to <a href="mailto:shrutiandmohit@gmail.com">shrutiandmohit@gmail.com</a><br><br>
+                    Most of the pictures on this site are just of Shruti and I. We're not narcissists, we swear! We're looking to collect pictures of moments that we've shared with you. If you have any pictures you would like to share, please email them to <a href="mailto:shrutiandmohit@gmail.com">shrutiandmohit@gmail.com</a><br><br>
                     Pretty please?
                 </p>
             </div>
         </div>
     </div>
-
+    <div class="parallax-container">
+        <div class="parallax"><img src={% static 'img/parallax/parallax1.jpg' %} alt="Shruti and Mohit Beside a wall" /></div>
+    </div>
     <div class="container" id="social">
-        <h2 class="full-width pink"><a class="white-text" name="social">Social Media</a></h2>
+        <h2><a class="pink-text" name="social">Social Media</a></h2>
         <div class="row center-align">
             <p>
                 Nothing to see here yet but check back here on the day of the events to see pictures and messages from the events.<br><br>
@@ -332,10 +339,13 @@
             <h4>#HappilyEverGupta</h4>
             <h4>#MSMerger2016</h4>
         </div>
+        <div class="row center-align">
+            <img class="ganesh" src={% static 'img/ganesh_ji.gif' %} alt="Ganesh Ji"  />
+
+        </div>
     </div>
 
     <footer class="footer-copyright pink">
-
         <div class="container">
                 <p class="white-text">
                     © 2016 Factor9 Design, All rights reserved.

@@ -11,4 +11,5 @@ $(document).ready(function(){
             "interval": 4000,
         });
     $('textarea#id_note').characterCounter();
+      $('.parallax').parallax();
 });

@@ -60,6 +60,12 @@ ul.nav-list a{
   background-size:cover;
   background-position:center;
   position:relative;
+  padding-top: 30rem;
+  margin-bottom: 2rem;
+}
+.parallax-container{
+    height: 35rem;
+    margin: 2rem 0 2rem 0;
 }
 
 .header{
@@ -83,10 +89,6 @@ a.brand-logo {
     margin: 0 -9999rem;
     padding: 0.25rem 9999rem;
 
-}
-
-h2 {
-    font-family: 'handwritten', sans-serif;
 }
 
 footer {
@@ -116,4 +118,9 @@ img.brand-logo {
     height:auto;
     position: relative;
     /*background-image: url("../img/logo.png");*/
+}
+
+.ganesh {
+    width: 6rem;
+    margin: 1rem auto 3rem;
 }

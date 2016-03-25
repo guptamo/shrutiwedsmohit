@@ -47,6 +47,7 @@ class AdministratorTests(base.BaseTest):
         # add guests to the invitation. Why not!
         self.browser.find_element_by_id("pandey_invite").click()
 
+
 class GuestTests(base.BaseTest):
 
     def setUp(self):

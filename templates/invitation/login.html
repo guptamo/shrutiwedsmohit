@@ -15,11 +15,11 @@
         {% if user.is_authenticated %}
             <img src="{% static 'img/ganesh_ji.gif' %}" class="new-logo"/>
             <div class="login-block">
-                <h1 class="center-align">You lost bro?</h1>
+                <h1 class="center-align">You lost bro? You're already logged in :)</h1>
                 {% if user.is_staff %}
-                    <a href="{% url 'invitation:dashboard' %}" class="btn center-align">Back to Dashboard</a>
+                    <a href="{% url 'invitation:dashboard' %}" class="btn center-align">Back to Dashboard</a><br><br>
                 {% else %}
-                    <a href="{{ user.invitation.get_absolute_url }}" class=" btn center-align">Back To Invitation</a>
+                    <a href="{{ user.invitation.get_absolute_url }}" class=" btn center-align">Back To Invitation</a><br><br>
                 {% endif %}
                 <a href="{% url 'logout' %}" class="btn center-align">Logout</a>
             </div>

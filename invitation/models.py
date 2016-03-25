@@ -15,7 +15,7 @@ class Invitation(models.Model):
     )
 
     user = models.OneToOneField(User, null=True, blank=True)
-    name = models.CharField(max_length=20, unique=True)
+    name = models.SlugField(max_length=20, unique=True)
     invited_by = models.CharField(max_length=5, choices=INVITED_BY_CHOICES)
 
     invited_sangeet = models.BooleanField(default=False)
