@@ -116,6 +116,7 @@
                     <thead>
                         <td>Name</td>
                         <td>Invited By</td>
+                        <td>Guest List</td>
                         <td>Guest Count</td>
                         <td>Password</td>
                         <td>Link</td>
@@ -125,9 +126,10 @@
                             <tr>
                                 <td>{{ invitation.name }}</td>
                                 <td>{{ invitation.invited_by }}</td>
+                                <td>{{ invitation.guest_list|safe }}</td>
                                 <td>{{ invitation.guest__count }}</td>
                                 <td>{{ invitation.password }}</td>
-                                <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
+                                <td><a href="{{ invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -144,13 +146,13 @@
                         <td>Link</td>
                     </thead>
                     <tbody id="guest-rows">
-                        {% for guest in lizts.3 %}
+                        {% for guest in lizts.1 %}
                             <tr>
                                 <td>{{ guest.name }}</td>
                                 <td>{{ guest.invitation.name }}</td>
                                 <td>{{ guest.invitation.password }}</td>
                                 <td>{{ guest.invitation.invited_by }}</td>
-                                <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
+                                <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
                                 </td>
                             </tr>
                         {% endfor %}

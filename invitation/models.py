@@ -32,6 +32,13 @@ class Invitation(models.Model):
     def get_absolute_url(self):
         return reverse("invitation:invitation", args=[self.name])
 
+    def guest_list(self):
+        guests = self.guest_set.all()
+        guest_list = ""
+        for guest in guests:
+            guest_list += "{}<br>".format(guest.name)
+        return guest_list
+
     def password(self):
         """
         Utility function which generates a password based on the given name. based

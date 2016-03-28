@@ -16,27 +16,9 @@ def dashboard(request):
     invitations = Invitation.objects.all().order_by("name").annotate(Count('guest'))
     guests = Guest.objects.all()
 
-    all_invitations = invitations
-    gupta_invitations = invitations.filter(
-        invited_by="gupta").annotate(
-            Count("guest")
-        )
-    verma_invitations = invitations.filter(
-        invited_by="verma").annotate(
-            Count("guest")
-        )
-
-    all_guests = guests
-    gupta_guests = guests.filter(invitation__invited_by="gupta")
-    verma_guests = guests.filter(invitation__invited_by="verma")
-
     lizts = (
-        all_invitations,
-        gupta_invitations,
-        verma_invitations,
-        all_guests,
-        gupta_guests,
-        verma_guests
+        invitations,
+        guests
     )
 
     total = (
@@ -46,13 +28,13 @@ def dashboard(request):
     )
     gupta = (
         "Gupta Family",
-        gupta_invitations.count(),
-        gupta_guests.count(),
+        invitations.filter(invited_by="gupta").count(),
+        guests.filter(invitation__invited_by="gupta").count(),
     )
     verma = (
         "Verma Family",
-        verma_invitations.count(),
-        verma_guests.count(),
+        invitations.filter(invited_by="verma").count(),
+        guests.filter(invitation__invited_by="verma").count(),
     )
 
     stats = (gupta, verma, total)
