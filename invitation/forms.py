@@ -19,7 +19,6 @@ class InvitationForm(ModelForm):
         }
 
 
-
 class AddGuestForm(ModelForm):
 
     class Meta:
@@ -46,5 +45,4 @@ class UpdateGuestForm(ModelForm):
                 "placeholder": "Food Allergies? Want to say hi? Anything really...let us know!",
             })
         }
-
         label_suffix = {field: "" for field in fields}

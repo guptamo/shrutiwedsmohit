@@ -82,9 +82,10 @@
                                             <div class="switch">
                                                 {{ form.attending_sangeet.errors }}
                                                 <label>
+                                                    No
                                                     {{ form.attending_sangeet }}
                                                     <span class="lever"></span>
-                                                    attending
+                                                    Yes
                                                 </label>
                                             </div>
                                         </div>
@@ -95,9 +96,10 @@
                                             <div class="switch">
                                                 {{ form.attending_ceremony.errors }}
                                                 <label>
+                                                    No
                                                     {{ form.attending_ceremony }}
                                                     <span class="lever"></span>
-                                                    attending
+                                                    Yes
                                                 </label>
                                             </div>
                                         </div>
@@ -108,9 +110,10 @@
                                             <div class="switch">
                                                 {{ form.attending_reception.errors }}
                                                 <label>
+                                                    No
                                                     {{ form.attending_reception }}
                                                     <span class="lever"></span>
-                                                    attending
+                                                    Yes
                                                 </label>
                                             </div>
                                         </div>
@@ -125,7 +128,7 @@
                                     {% endif %}
                                 </div>
                                 <div class="row text-input">
-                                    <p>Note</p>
+                                    <p>Additional Info</p>
                                     {{ form.note.errors }}
                                     <div class="input-field col s12 l9">
                                         {{ form.note }}
@@ -330,7 +333,7 @@
         <div class="parallax"><img src={% static 'img/parallax/parallax1.jpg' %} alt="Shruti and Mohit Beside a wall" /></div>
     </div>
     <div class="container" id="social">
-        <h2><a class="pink-text" name="social">Social Media</a></h2>
+        <h2 class="center-align"><a class="pink-text" name="social">Social Media</a></h2>
         <div class="row center-align">
             <p>
                 Nothing to see here yet but check back here on the day of the events to see pictures and messages from the events.<br><br>
@@ -341,7 +344,6 @@
         </div>
         <div class="row center-align">
             <img class="ganesh" src={% static 'img/ganesh_ji.gif' %} alt="Ganesh Ji"  />
-
         </div>
     </div>
 

@@ -102,7 +102,6 @@
                 {% endif %}
             </div>
         </div>
-
         <div class="row">
             <h3>Lists</h3>
             <div class="col s12">
@@ -112,160 +111,61 @@
                 </ul>
             </div>
             <div id="invitations" class="col s12">
-                <div class="col s12">
-                    <ul class="tabs">
-                        <li class="tab col s4"><a href="#all-invitations" class="black-text">All</a></li>
-                        <li class="tab col s4"><a href="#gupta-invitations" class="black-text">Gupta</a></li>
-                        <li class="tab col s4"><a href="#verma-invitations" class="black-text">Verma</a></li>
-                    </ul>
-                </div>
-                <div id="all-invitations" class="col s12">
-                    <table class="highlight responsive-table">
-                        <thead>
-                            <td>Name</td>
-                            <td>Invited By</td>
-                            <td>Guest Count</td>
-                            <td>Password</td>
-                            <td>Link</td>
-                        </thead>
-                        <tbody>
-                            {% for invitation in lizts.0 %}
-                                <tr>
-                                    <td>{{ invitation.name }}</td>
-                                    <td>{{ invitation.invited_by }}</td>
-                                    <td>{{ invitation.guest__count }}</td>
-                                    <td>{{ invitation.password }}</td>
-                                    <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div id="gupta-invitations" class="col s12">
-                    <table class="highlight responsive-table">
-                        <thead>
-                            <td>Name</td>
-                            <td>Guest Count</td>
-                            <td>Password</td>
-                            <td>Link</td>
-                        </thead>
-                        <tbody>
-                            {% for invitation in lizts.1 %}
-                                <tr>
-                                    <td>{{ invitation.name }}</td>
-                                    <td>{{ invitation.guest__count }}</td>
-                                    <td>{{ invitation.password }}</td>
-                                    <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div id="verma-invitations" class="col s12">
-                    <table class="highlight responsive-table">
-                        <thead>
-                            <td>Name</td>
-                            <td>Guest Count</td>
-                            <td>Password</td>
-                            <td>Link</td>
-                        </thead>
-                        <tbody>
-                            {% for invitation in lizts.2 %}
+                <input type="text" id="invitation-search" placeholder="Type to search">
+                <table class="highlight responsive-table">
+                    <thead>
+                        <td>Name</td>
+                        <td>Invited By</td>
+                        <td>Guest Count</td>
+                        <td>Password</td>
+                        <td>Link</td>
+                    </thead>
+                    <tbody id="invitation-rows">
+                        {% for invitation in lizts.0 %}
                             <tr>
                                 <td>{{ invitation.name }}</td>
+                                <td>{{ invitation.invited_by }}</td>
                                 <td>{{ invitation.guest__count }}</td>
                                 <td>{{ invitation.password }}</td>
                                 <td><a href="{{ invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
                             </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-
-                </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
             <div id="guests" class="col s12">
-                <div class="col s12">
-                    <ul class="tabs">
-                        <li class="tab col s4"><a href="#all-guests" class="black-text">All</a></li>
-                        <li class="tab col s4"><a href="#gupta-guests" class="black-text">Gupta</a></li>
-                        <li class="tab col s4"><a href="#verma-guests" class="black-text">Verma</a></li>
-                    </ul>
-                </div>
-                <div id="all-guests" class="col s12">
-                    <table class="highlight responsive-table"v>
-                        <thead>
-                            <td>Name</td>
-                            <td>Invitation Name</td>
-                            <td>Password</td>
-                            <td>Invited By</td>
-                            <td>Link</td>
-                        </thead>
-                        <tbody>
-                            {% for guest in lizts.3 %}
-                                <tr>
-                                    <td>{{ guest.name }}</td>
-                                    <td>{{ guest.invitation.name }}</td>
-                                    <td>{{ guest.invitation.password }}</td>
-                                    <td>{{ guest.invitation.invited_by }}</td>
-                                    <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div id="gupta-guests" class="col s12">
-                    <table class="highlight responsive-table">
-                        <thead>
-                            <td>Name</td>
-                            <td>Invitation Name</td>
-                            <td>Password</td>
-                            <td>Link</td>
-                        </thead>
-                        <tbody>
-                            {% for guest in lizts.4 %}
-                                <tr>
-                                    <td>{{ guest.name }}</td>
-                                    <td>{{ guest.invitation.name }}</td>
-                                    <td>{{ guest.invitation.password }}</td>
-                                    <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div id="verma-guests" class="col s12">
-                    <table class="highlight responsive-table">
-                        <thead>
-                            <td>Name</td>
-                            <td>Invitation Name</td>
-                            <td>Password</td>
-                            <td>Link</td>
-                        </thead>
-                        <tbody>
-                            {% for guest in lizts.5 %}
-                                <tr>
-                                    <td>{{ guest.name }}</td>
-                                    <td>{{ guest.invitation.name }}</td>
-                                    <td>{{ guest.invitation.password }}</td>
-                                    <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                <input type="text" id="guest-search" placeholder="Type to search">
+                <table class="highlight responsive-table"v>
+                    <thead>
+                        <td>Name</td>
+                        <td>Invitation Name</td>
+                        <td>Password</td>
+                        <td>Invited By</td>
+                        <td>Link</td>
+                    </thead>
+                    <tbody id="guest-rows">
+                        {% for guest in lizts.3 %}
+                            <tr>
+                                <td>{{ guest.name }}</td>
+                                <td>{{ guest.invitation.name }}</td>
+                                <td>{{ guest.invitation.password }}</td>
+                                <td>{{ guest.invitation.invited_by }}</td>
+                                <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn white grey-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
     <br>
     <br>
     <br>
-
 {% endblock content %}
 
 {% block body_scripts %}
+    <script type="text/javascript" src="{% static 'js/bin/search.js' %}"></script>
     {% if  messages %}
             <script type="text/javascript">
                 $(document).ready(function(){
