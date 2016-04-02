@@ -21,6 +21,7 @@ class Invitation(models.Model):
     invited_sangeet = models.BooleanField(default=False)
     invited_ceremony = models.BooleanField(default=False)
     invited_reception = models.BooleanField(default=False)
+    rsvp = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Invitation'

@@ -84,8 +84,8 @@
                     <table class="highlight responsive-table">
                         <thead>
                             <td></td>
-                            <td>Invitation Count</td>
-                            <td>Guest Count</td>
+                            <td>Invitations</td>
+                            <td>Guest</td>
                         </thead>
                         <tbody>
                             {% for name, invitations, guests in  stats %}
@@ -111,24 +111,35 @@
                 </ul>
             </div>
             <div id="invitations" class="col s12">
-                <input type="text" id="invitation-search" placeholder="Type to search">
+                <input type="text" id="invitation-search" placeholder="Search invitations">
                 <table class="highlight responsive-table">
                     <thead>
                         <td>Name</td>
+                        <td>Password</td>
+                        <td>RSVP?</td>
                         <td>Invited By</td>
                         <td>Guest List</td>
                         <td>Guest Count</td>
-                        <td>Password</td>
                         <td>Link</td>
                     </thead>
                     <tbody id="invitation-rows">
                         {% for invitation in lizts.0 %}
                             <tr>
                                 <td>{{ invitation.name }}</td>
+                                <td>{{ invitation.password }}</td>
+                                {% if invitation.rsvp %}
+                                    <td class="green-text">
+                                        {{ invitation.rsvp }}
+                                    </td>
+                                {% else %}
+                                    <td class="red-text">
+                                        {{ invitation.rsvp }}
+                                    </td>
+                                {% endif %}
+
                                 <td>{{ invitation.invited_by }}</td>
                                 <td>{{ invitation.guest_list|safe }}</td>
                                 <td>{{ invitation.guest__count }}</td>
-                                <td>{{ invitation.password }}</td>
                                 <td><a href="{{ invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
                             </tr>
                         {% endfor %}
@@ -136,12 +147,11 @@
                 </table>
             </div>
             <div id="guests" class="col s12">
-                <input type="text" id="guest-search" placeholder="Type to search">
+                <input type="text" id="guest-search" placeholder="Search Guests">
                 <table class="highlight responsive-table"v>
                     <thead>
                         <td>Name</td>
-                        <td>Invitation Name</td>
-                        <td>Password</td>
+                        <td colspan="3" class="center-align">Attending</td>
                         <td>Invited By</td>
                         <td>Link</td>
                     </thead>
@@ -149,8 +159,21 @@
                         {% for guest in lizts.1 %}
                             <tr>
                                 <td>{{ guest.name }}</td>
-                                <td>{{ guest.invitation.name }}</td>
-                                <td>{{ guest.invitation.password }}</td>
+                                <td>
+                                    {% if guest.attending_sangeet %}
+                                        Sangeet
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if guest.attending_ceremony %}
+                                        Ceremony
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if guest.attending_reception %}
+                                        Reception
+                                    {% endif %}
+                                </td>
                                 <td>{{ guest.invitation.invited_by }}</td>
                                 <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
                                 </td>

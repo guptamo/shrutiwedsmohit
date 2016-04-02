@@ -67,7 +67,8 @@
                 <div class="col s12 m6 l6">
                     <div class="card">
                         <div class="card-content">
-                            <h4 class="card-title">{{ guest.name }}</h4>
+                            <h4 class="card-title no-bottom-padding">{{ guest.name }}</h4>
+                            <p class="light" style="margin-bottom: 1rem !important;">Please click rsvp even if you will not be attending</p>
                             <form action="{% url 'invitation:update_guest' invitation.name guest.pk %}" method="post">
                                 {% csrf_token %}
                                 {% if form.non_field_errors %}
@@ -76,6 +77,7 @@
                                     </div>
                                 {% endif %}
                                 <div class="row" style="margin-bottom:0;">
+
                                     {% if invitation.invited_sangeet %}
                                         <div class="col s6 m6 l6">
                                             <p>Sangeet</p>
@@ -145,24 +147,26 @@
         </div>
     </div>
     <div class="parallax-container">
-        <div class="parallax"><img src={% static 'img/parallax/parallax2.jpg' %} alt="Shruti and Mohit at a Water Treatment Facility" /></div>
+        <div class="parallax">
+            <img src="{% static 'img/parallax/parallax9.jpg' %}" alt="Look Back" />
+        </div>
     </div>
     <div class="container" id="info">
         <div class="row">
             <h2><a class="purple-text text-lighten-1" name="#info">info</a></h2>
             {% if invitation.invited_sangeet %}
-                <h4 class="orange-text">Sangeet</h4>
+                <h4 class="orange-text"><img src={% static 'img/paisley.png' %} alt="" class="deco"/>  Sangeet</h4>
                 <div class="divider"></div>
                 <div class="row">
                     {% if invitation.invited_by == "verma" %}
                         <div class="col s12 m6 l6">
                             <h5>When</h5>
-                            <p class="light">
+                            <p>
                                 Thursday, August 4, 2016<br>
                                 6:00 pm
                             </p>
                             <h5>Where</h5>
-                            <p class="light">
+                            <p>
                                 The Verma Residence<br>
                                 1 Shadyridge Road<br>
                                 Brampton, ON L6P 1K3
@@ -176,12 +180,11 @@
                     {% elif invitation.invited_by == "gupta" %}
                         <div class="col s12 m6 l6">
                             <h5>When</h5>
-                            <p class="light">
+                            <p>
                                 Sunday, July 24, 2016<br>
-                                NOTE!!! INSERT TIME HERE!!!!!!!!!
                             </p>
                             <h5>Where</h5>
-                            <p class="light">
+                            <p>
                                 The Gupta Residence<br>
                                 2136 Appleleaf Way<br>
                                 Ottawa, ON K1W 1J9
@@ -196,21 +199,21 @@
                 </div>
             {% endif %}
             {% if invitation.invited_ceremony %}
-                <h4 class="pink-text">Wedding Ceremony</h4>
+                <h4 class="pink-text"><img src={% static 'img/ganesh_ji.gif' %} alt="" class="deco"/>  Wedding Ceremony</h4>
                 <div class="divider"></div>
                 <div class="row">
                     <div class="col s12 m6 l6">
                         <h5>When</h5>
-                        <p class="light">
+                        <p>
                             Sunday, August 7, 2016<br>
-                            <ul class="light">
+                            <ul>
                                 <li><strong>Baraat</strong> arrives at 9 am</li>
                                 <li><strong>Ceremony</strong> begins at 10 am</li>
                                 <li><strong>Lunch</strong> to follow</li>
                             </ul>
                         </p>
                         <h5>Where</h5>
-                        <p class="light">
+                        <p>
                             Toscana Banquet Hall<br>
                             at the Hilton Garden Inn Hotel<br>
                             3201 Highway 7 West<br>
@@ -225,12 +228,12 @@
                 </div>
             {% endif %}
             {% if invitation.invited_reception %}
-                <h4 class="purple-text text-lighten1">Reception</h4>
+                <h4 class="purple-text text-lighten1"><img src={% static 'img/mandala.png' %} alt="" class="deco"/>  Reception</h4>
                 <div class="divider"></div>
                 <div class="row">
                     <div class="col s12 m6 l6">
                         <h5>When</h5>
-                        <p class="light">
+                        <p>
                             Sunday, August 7, 2016<br>
                             <ul>
                                 <li><strong>Cocktails</strong> begin at 6 pm</li>
@@ -239,7 +242,7 @@
                             </ul>
                         </p>
                         <h5>Where</h5>
-                        <p class="light">
+                        <p>
                             The Manor<br>
                             16750 Weston Road<br>
                             Kettleby, ON L0G 1J0
@@ -254,7 +257,7 @@
             {% endif %}
         </div>
     </div>
-    <div class="parallax-container">
+    <div class="parallax-container no-bottom-padding">
         <div class="parallax"><img src={% static 'img/parallax/parallax6.jpg' %} alt="Shruti and Mohit Beside a wall" /></div>
     </div>
     <div class="container" id="accommodation">
@@ -282,55 +285,61 @@
             </p>
         </div>
     </div>
-    <div class="parallax-container">
-        <div class="parallax"><img src={% static 'img/parallax/parallax8.jpg' %} alt="Shruti and Mohit Beside a wall" /></div>
-    </div>
-    <div class="row">
-        <div class="col s12 m8 l9">
-            <div class="slider">
-                <ul class="slides">
-                    <li>
-                      <img src="{% static 'img/slider/slider1.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/slider2.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/slider3.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/slider4.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/slider5.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/slider6.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/slider7.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/slider8.jpg' %}">
-                    </li>
-                    <li>
-                      <img src="{% static 'img/slider/giphy.gif' %}">
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="col s12 m4 l3">
-            <br>
-                <h2 class="center-align"><a class="black-text" name="help">We Need Your Help!</a></h2>
-                <p class="center-align">
-                    Most of the pictures on this site are just of Shruti and I. We're not narcissists, we swear! We're looking to collect pictures of moments that we've shared with you. If you have any pictures you would like to share, please email them to <a href="mailto:shrutiandmohit@gmail.com">shrutiandmohit@gmail.com</a><br><br>
-                    Pretty please?
-                </p>
-            </div>
+    <div class="row pink white-text no-bottom-padding">
+        <div class="col s12 center-align" id="help">
+            <h2><a class="white-text" name="help">We Need Your Help!</a></h2>
+            <p>
+                Most of the pictures on this site are just of Shruti and I. We're looking to collect pictures of moments that we've shared with you. If you have any pictures you would like to share, please email them to <a class="white-text" href="mailto:shrutiandmohit@gmail.com">shrutiandmohit@gmail.com</a><br><br>
+                Pretty please?
+            </p>
         </div>
     </div>
-    <div class="parallax-container">
-        <div class="parallax"><img src={% static 'img/parallax/parallax1.jpg' %} alt="Shruti and Mohit Beside a wall" /></div>
+    <div class="slider hide-on-large-only">
+        <ul class="slides">
+            <li>
+                <img src="{% static 'img/slider/slider2.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider5.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/portrait_slider1.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/portrait_slider2.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider8.jpg' %}">
+            </li>
+        </ul>
+    </div>
+    <div class="slider hide-on-med-and-down">
+        <ul class="slides">
+            <li>
+                <img src="{% static 'img/slider/slider1.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider2.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider3.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider4.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider5.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider6.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider7.jpg' %}">
+            </li>
+            <li>
+                <img src="{% static 'img/slider/slider8.jpg' %}">
+            </li>
+        </ul>
     </div>
     <div class="container" id="social">
         <h2 class="center-align"><a class="pink-text" name="social">Social Media</a></h2>
@@ -360,18 +369,18 @@
     <script type="text/javascript" src="{% static 'js/bin/slowscroll.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/bin/hero.js' %}"></script>
     {% if  messages %}
-            <script type="text/javascript">
-                $(document).ready(function(){
-                    {% for message in messages %}
-                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                            Materialize.toast('{{ message }}', 5000, 'red white-text');
-                        {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                            Materialize.toast('{{ message }}', 3000, 'green white-text');
-                        {% else %}
-                            Materialize.toast('{{ message }}', 3000);
-                        {% endif %}
-                    {% endfor %}
-                });
-            </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        Materialize.toast('{{ message }}', 5000, 'red white-text');
+                    {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                        Materialize.toast('{{ message }}', 3000, 'green white-text');
+                    {% else %}
+                        Materialize.toast('{{ message }}', 3000);
+                    {% endif %}
+                {% endfor %}
+            });
+        </script>
     {% endif %}
 {% endblock body_scripts %}

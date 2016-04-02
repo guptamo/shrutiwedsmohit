@@ -124,3 +124,25 @@ img.brand-logo {
     width: 6rem;
     margin: 1rem auto 3rem;
 }
+
+img.deco {
+    height: 2.2rem;
+    margin-bottom:-0.3rem;
+}
+
+#help, #accommodation{
+    padding: 3rem 1rem 3rem 1rem;
+}
+
+#help h2, #accommodation h2 {
+    margin-top:0;
+
+}
+
+.no-bottom-padding {
+    margin-bottom:0;
+}
+
+.extra-bottom-margin{
+    margin-bottom: 2rem;
+}

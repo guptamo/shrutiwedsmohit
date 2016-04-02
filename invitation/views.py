@@ -117,6 +117,9 @@ def update_guest(request, invitation_name, guest_pk):
     if request.method == "POST":
         form = UpdateGuestForm(request.POST, instance=guest)
         if form.is_valid():
+            if request.user == invitation.user:
+                invitation.rsvp = True
+                invitation.save()
             form.save()
             messages.success(
                 request,
