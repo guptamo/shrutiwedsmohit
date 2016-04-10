@@ -371,11 +371,11 @@
     {% if  messages %}
         <script type="text/javascript">
             $(document).ready(function(){
-                {% for message in messages %}
+                {% for message in messages %} 
                     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                         Materialize.toast('{{ message }}', 5000, 'red white-text');
                     {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-                        Materialize.toast('{{ message }}', 3000, 'green white-text');
+                        Materialize.toast('{{ message }}', 4000, 'green white-text');
                     {% else %}
                         Materialize.toast('{{ message }}', 3000);
                     {% endif %}

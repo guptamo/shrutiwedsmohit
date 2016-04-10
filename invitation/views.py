@@ -15,26 +15,31 @@ def dashboard(request):
     form = InvitationForm()
     invitations = Invitation.objects.all().order_by("name").annotate(Count('guest'))
     guests = Guest.objects.all()
+    notes = guests.exclude(note__exact="")
 
     lizts = (
         invitations,
-        guests
+        guests,
+        notes,
     )
 
     total = (
         "Total",
         invitations.count(),
         guests.count(),
+        invitations.filter(rsvp=True).count()
     )
     gupta = (
         "Gupta Family",
         invitations.filter(invited_by="gupta").count(),
         guests.filter(invitation__invited_by="gupta").count(),
+        invitations.filter(invited_by="gupta", rsvp=True).count()
     )
     verma = (
         "Verma Family",
         invitations.filter(invited_by="verma").count(),
         guests.filter(invitation__invited_by="verma").count(),
+        invitations.filter(invited_by="verma", rsvp=True).count()
     )
 
     stats = (gupta, verma, total)
@@ -46,10 +51,13 @@ def dashboard(request):
     }
     return render(request, "invitation/dashboard.html", context)
 
+def invitation_access_check(request, invitation_name):
+    return request.user.username == invitation_name
+
 @login_required
 def invitation(request, invitation_name):
-    # if not invitation_access_check(request, invitation_name):
-    #     return redirect(request.user.invitation.get_absolute_url())
+    if request.user.username != invitation_name and not request.user.is_staff:
+        return redirect(request.user.invitation.get_absolute_url())
     invitation = get_object_or_404(Invitation, name=invitation_name)
     guests = invitation.guest_set.all().order_by("name")
     guest_forms = []
@@ -110,8 +118,8 @@ def add_invitation(request):
 
 @login_required
 def update_guest(request, invitation_name, guest_pk):
-    # if not invitation_access_check(request, invitation_name):
-    #     return redirect(request.user.invitation.get_absolute_url())
+    if request.user.username != invitation_name and not request.user.is_staff:
+        return redirect(request.user.invitation.get_absolute_url())
     guest = get_object_or_404(Guest, pk=guest_pk)
     invitation = get_object_or_404(Invitation, name=invitation_name)
     if request.method == "POST":
