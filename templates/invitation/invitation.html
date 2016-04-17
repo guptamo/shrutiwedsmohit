@@ -21,7 +21,6 @@
                             <img class="brand-logo" src={% static 'img/logo.png' %} alt="Ganesh Ji" />
                         </a>
                     </li>
-
                     {% include "invitation/navbar.html" %}
                 </ul>
             </div>
@@ -371,7 +370,7 @@
     {% if  messages %}
         <script type="text/javascript">
             $(document).ready(function(){
-                {% for message in messages %} 
+                {% for message in messages %}
                     {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
                         Materialize.toast('{{ message }}', 5000, 'red white-text');
                     {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load staticfiles %}
 
-{% block title %}Dashboard{% endblock title %}
+{% block title %} {{ user.username }} {% endblock title %}
 
 {% block head_scripts %}
     <link type="text/css" rel="stylesheet" href="{% static 'css/custom.css' %}"  media="screen,projection"/>
@@ -99,6 +99,22 @@
                             {% endfor %}
                         </tbody>
                     </table>
+                    <table class="responsive">
+                        <thead>
+                            <td></td>
+                            <td>Veg</td>
+                            <td>Non-Veg</td>
+                            <td>No Choice</td>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ meals.0 }}</td>
+                                <td>{{ meals.1 }}</td>
+                                <td>{{ meals.2 }}</td>
+                                <td>{{ meals.3 }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 {% else %}
                     <h5>Nothing to see here...</h5>
                 {% endif %}
@@ -108,9 +124,10 @@
             <h3>Lists</h3>
             <div class="col s12">
                 <ul class="tabs">
-                    <li class="tab col s4"><a href="#invitations" class="black-text">Invitations</a></li>
-                    <li class="tab col s4"><a href="#guests" class="black-text">Guests</a></li>
-                    <li class="tab col s4"><a href="#notes" class="black-text">Notes</a></li>
+                    <li class="tab col s3"><a href="#invitations" class="black-text">Invitations</a></li>
+                    <li class="tab col s3"><a href="#guests" class="black-text">Guests</a></li>
+                    <li class="tab col s3"><a href="#notes" class="black-text">Notes</a></li>
+                    <li class="tab col s3"><a href="#meals" class="black-text">Meals</a></li>
                 </ul>
             </div>
             <div id="invitations" class="col s12">
@@ -185,6 +202,25 @@
                     </tbody>
                 </table>
             </div>
+            <div id="meals" class="col s12">
+                <input type="text" id="meal-search" placeholder="Search Meal Choices">
+                <table class="highlight responsive-table"v>
+                    <thead>
+                        <td>Guest</td>
+                        <td>Meal Choice</td>
+                        <td>Note</td>
+                    </thead>
+                    <tbody id="meal-rows">
+                        {% for guest in lizts.2 %}
+                            <tr>
+                                <td>{{ guest.name }}</td>
+                                <td>{{ guest.meal_choice }}</td>
+                                <td>{{ guest.note }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             <div id="notes" class="col s12">
                 <input type="text" id="note-search" placeholder="Search Notes">
                 <table class="highlight responsive-table"v>
@@ -194,7 +230,7 @@
                         <td>Invitation</td>
                     </thead>
                     <tbody id="note-rows">
-                        {% for note in lizts.2 %}
+                        {% for note in lizts.3 %}
                             <tr>
                                 <td>{{ note.name }}</td>
                                 <td>{{ note.note }}</td>

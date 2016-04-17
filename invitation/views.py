@@ -16,11 +16,13 @@ def dashboard(request):
     invitations = Invitation.objects.all().order_by("name").annotate(Count('guest'))
     guests = Guest.objects.all()
     notes = guests.exclude(note__exact="")
+    food = guests.filter(attending_reception=True, invitation__rsvp=True)
 
     lizts = (
         invitations,
         guests,
-        notes,
+        food,
+        notes
     )
 
     total = (
@@ -41,12 +43,19 @@ def dashboard(request):
         guests.filter(invitation__invited_by="verma").count(),
         invitations.filter(invited_by="verma", rsvp=True).count()
     )
+    meals = (
+        "Meal Choices",
+        food.filter(meal_choice="veg").count(),
+        food.filter(meal_choice="non-veg").count(),
+        food.filter(meal_choice=None).count()
+    )
 
     stats = (gupta, verma, total)
 
     context = {
         "form": form,
         "stats": stats,
+        "meals": meals,
         "lizts": lizts,
     }
     return render(request, "invitation/dashboard.html", context)
