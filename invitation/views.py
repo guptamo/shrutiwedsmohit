@@ -30,7 +30,9 @@ def dashboard(request):
                 attending_reception=True, invitation__invited_by="gupta"
             ).count(),
         guests.filter(invitation__invited_by="gupta").count(),
-        invitations.filter(invited_by="gupta", rsvp=True).count()
+        guests.filter(
+                invitation__invited_by="gupta", invitation__rsvp=True
+            ).count()
     )
     verma = (
         "Verma Family",
@@ -44,7 +46,9 @@ def dashboard(request):
                 attending_reception=True, invitation__invited_by="verma"
             ).count(),
         guests.filter(invitation__invited_by="verma").count(),
-        invitations.filter(invited_by="verma", rsvp=True).count()
+        guests.filter(
+                invitation__invited_by="verma", invitation__rsvp=True
+            ).count()
     )
     total = (
         "Total",
@@ -52,7 +56,7 @@ def dashboard(request):
         gupta[2] + verma[2],
         gupta[3] + verma[3],
         guests.count(),
-        invitations.filter(rsvp=True).count()
+        guests.filter(invitation__rsvp=True).count()
     )
 
     meals = (
