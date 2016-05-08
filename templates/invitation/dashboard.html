@@ -83,16 +83,25 @@
                 {% if stats %}
                     <table class="highlight responsive-table">
                         <thead>
+                            <tr>
+                                <td></td>
+                                <td colspan=3 class="center">Attending</td>
+                                <td colspan=2 class="center">Invited</td>
+                            </tr>
                             <td></td>
-                            <td>Invitations</td>
+                            <td>Sangeet</td>
+                            <td>Ceremony</td>
+                            <td>Reception</td>
                             <td>Guest</td>
                             <td>RSVP</td>
                         </thead>
                         <tbody>
-                            {% for name, invitations, guests, rsvp in  stats %}
+                            {% for name, sangeet, ceremony, reception, guests, rsvp in  stats %}
                                 <tr>
                                     <td>{{ name }}</td>
-                                    <td>{{ invitations }}</td>
+                                    <td>{{ sangeet }}</td>
+                                    <td>{{ ceremony }}</td>
+                                    <td>{{ reception }}</td>
                                     <td>{{ guests }}</td>
                                     <td>{{ rsvp }}</td>
                                 </tr>
@@ -122,63 +131,29 @@
         </div>
         <div class="row">
             <h3>Lists</h3>
+            <div class="divider"></div>
             <div class="col s12">
                 <ul class="tabs">
+                    <li class="tab col s3"><a href="#attendees" class="black-text">Attendees</a></li>
                     <li class="tab col s3"><a href="#invitations" class="black-text">Invitations</a></li>
                     <li class="tab col s3"><a href="#guests" class="black-text">Guests</a></li>
-                    <li class="tab col s3"><a href="#notes" class="black-text">Notes</a></li>
-                    <li class="tab col s3"><a href="#meals" class="black-text">Meals</a></li>
                 </ul>
             </div>
-            <div id="invitations" class="col s12">
-                <input type="text" id="invitation-search" placeholder="Search invitations">
+            <div id="attendees" class="col s12">
+                <input type="text" id="attendee-search" placeholder="Search invitations">
                 <table class="highlight responsive-table">
                     <thead class="center-align">
                         <td>Name</td>
-                        <td>Password</td>
-                        <td>RSVP?</td>
                         <td>Invited By</td>
-                        <td>Guest List</td>
-                        <td>Guest Count</td>
-                        <td>Link</td>
+                        <td colspan=3 class="center">Attending</td>
+                        <td>Meal Choice</td>
+                        <td>Note</td>
                     </thead>
-                    <tbody id="invitation-rows">
-                        {% for invitation in lizts.0 %}
-                            <tr>
-                                <td>{{ invitation.name }}</td>
-                                <td>{{ invitation.password }}</td>
-                                {% if invitation.rsvp %}
-                                    <td class="green-text">
-                                        {{ invitation.rsvp }}
-                                    </td>
-                                {% else %}
-                                    <td class="red-text">
-                                        {{ invitation.rsvp }}
-                                    </td>
-                                {% endif %}
-
-                                <td>{{ invitation.invited_by }}</td>
-                                <td>{{ invitation.guest_list|safe }}</td>
-                                <td>{{ invitation.guest__count }}</td>
-                                <td><a href="{{ invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div id="guests" class="col s12">
-                <input type="text" id="guest-search" placeholder="Search Guests">
-                <table class="highlight responsive-table"v>
-                    <thead>
-                        <td>Name</td>
-                        <td colspan="3" class="center-align">Attending</td>
-                        <td>Invited By</td>
-                        <td>Link</td>
-                    </thead>
-                    <tbody id="guest-rows">
-                        {% for guest in lizts.1 %}
+                    <tbody id="attendee-rows">
+                        {% for guest in lizts.0 %}
                             <tr>
                                 <td>{{ guest.name }}</td>
+                                <td>{{ guest.invitation.invited_by }}</td>
                                 <td>
                                     {% if guest.attending_sangeet %}
                                         Sangeet
@@ -194,26 +169,6 @@
                                         Reception
                                     {% endif %}
                                 </td>
-                                <td>{{ guest.invitation.invited_by }}</td>
-                                <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div id="meals" class="col s12">
-                <input type="text" id="meal-search" placeholder="Search Meal Choices">
-                <table class="highlight responsive-table"v>
-                    <thead>
-                        <td>Guest</td>
-                        <td>Meal Choice</td>
-                        <td>Note</td>
-                    </thead>
-                    <tbody id="meal-rows">
-                        {% for guest in lizts.2 %}
-                            <tr>
-                                <td>{{ guest.name }}</td>
                                 <td>{{ guest.meal_choice }}</td>
                                 <td>{{ guest.note }}</td>
                             </tr>
@@ -221,20 +176,73 @@
                     </tbody>
                 </table>
             </div>
-            <div id="notes" class="col s12">
-                <input type="text" id="note-search" placeholder="Search Notes">
+            <div id="invitations" class="col s12">
+                <input type="text" id="invitation-search" placeholder="Search invitations">
+                <table class="highlight responsive-table">
+                    <thead class="center-align">
+                        <td>Name</td>
+                        <td>Password</td>
+                        <td>RSVP?</td>
+                        <td>Invited By</td>
+                        <td>Guest List</td>
+                        <td>Guest Count</td>
+                        <td>Link</td>
+                    </thead>
+                    <tbody id="invitation-rows">
+                        {% for invitation in lizts.1 %}
+                            <tr>
+                                <td>{{ invitation.name }}</td>
+                                <td>{{ invitation.password }}</td>
+                                {% if invitation.rsvp %}
+                                    <td class="green-text">
+                                        {{ invitation.rsvp }}
+                                    </td>
+                                {% else %}
+                                    <td class="red-text">
+                                        {{ invitation.rsvp }}
+                                    </td>
+                                {% endif %}
+                                <td>{{ invitation.invited_by }}</td>
+                                <td>{{ invitation.guest_list|safe }}</td>
+                                <td>{{ invitation.guest__count }}</td>
+                                <td><a href="{{ invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div id="guests" class="col s12">
+                <input type="text" id="guest-search" placeholder="Search Guests">
                 <table class="highlight responsive-table"v>
                     <thead>
-                        <td>Guest</td>
-                        <td>Note</td>
+                        <td>Name</td>
+                        <td>Invited By</td>
+                        <td colspan="3" class="center-align">Invited To</td>
+                        <td>Notes</td>
                         <td>Invitation</td>
                     </thead>
-                    <tbody id="note-rows">
-                        {% for note in lizts.3 %}
+                    <tbody id="guest-rows">
+                        {% for guest in lizts.2 %}
                             <tr>
-                                <td>{{ note.name }}</td>
-                                <td>{{ note.note }}</td>
-                                <td><a href="{{ note.invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
+                                <td>{{ guest.name }}</td>
+                                <td>{{ guest.invitation.invited_by }}</td>
+                                <td>
+                                    {% if guest.invitation.invited_sangeet %}
+                                        Sangeet
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if guest.invitation.invited_ceremony %}
+                                        Ceremony
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if guest.invitation.invited_reception %}
+                                        Reception
+                                    {% endif %}
+                                </td>
+                                <td>{{ guest.note }}</td>
+                                <td><a href="{{ guest.invitation.get_absolute_url }}" class="btn pink white-text waves-effect waves-red hoverable">See Invitation <i class="material-icons right">trending_flat</i></a>
                                 </td>
                             </tr>
                         {% endfor %}

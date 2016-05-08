@@ -5,7 +5,7 @@ from .forms import InvitationForm, AddGuestForm, UpdateGuestForm
 from django.forms import modelformset_factory
 from django.core.urlresolvers import reverse
 from .models import Invitation, Guest
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.contrib import messages
 import string
 
@@ -15,34 +15,46 @@ def dashboard(request):
     form = InvitationForm()
     invitations = Invitation.objects.all().order_by("name").annotate(Count('guest'))
     guests = Guest.objects.all()
-    notes = guests.exclude(note__exact="")
     food = guests.filter(attending_reception=True, invitation__rsvp=True)
+    responded = guests.filter(invitation__rsvp=True)
 
-    lizts = (
-        invitations,
-        guests,
-        food,
-        notes
-    )
-
-    total = (
-        "Total",
-        invitations.count(),
-        guests.count(),
-        invitations.filter(rsvp=True).count()
-    )
     gupta = (
         "Gupta Family",
-        invitations.filter(invited_by="gupta").count(),
+        responded.filter(
+                attending_sangeet=True, invitation__invited_by="gupta"
+            ).count(),
+            responded.filter(
+                attending_ceremony=True, invitation__invited_by="gupta"
+            ).count(),
+            responded.filter(
+                attending_reception=True, invitation__invited_by="gupta"
+            ).count(),
         guests.filter(invitation__invited_by="gupta").count(),
         invitations.filter(invited_by="gupta", rsvp=True).count()
     )
     verma = (
         "Verma Family",
-        invitations.filter(invited_by="verma").count(),
+        responded.filter(
+                attending_sangeet=True, invitation__invited_by="verma"
+            ).count(),
+        responded.filter(
+                attending_ceremony=True, invitation__invited_by="verma"
+            ).count(),
+        responded.filter(
+                attending_reception=True, invitation__invited_by="verma"
+            ).count(),
         guests.filter(invitation__invited_by="verma").count(),
         invitations.filter(invited_by="verma", rsvp=True).count()
     )
+    total = (
+        "Total",
+        gupta[1] + verma[1],
+        gupta[2] + verma[2],
+        gupta[3] + verma[3],
+        guests.count(),
+        invitations.filter(rsvp=True).count()
+    )
+
     meals = (
         "Meal Choices",
         food.filter(meal_choice="veg").count(),
@@ -52,11 +64,24 @@ def dashboard(request):
 
     stats = (gupta, verma, total)
 
+    attendance = guests.filter(
+        Q(attending_sangeet=True) |
+        Q(attending_ceremony=True) |
+        Q(attending_reception=True)
+    )
+
+    lizts = (
+        attendance,
+        invitations,
+        guests
+    )
+
     context = {
         "form": form,
         "stats": stats,
         "meals": meals,
         "lizts": lizts,
+
     }
     return render(request, "invitation/dashboard.html", context)
 
