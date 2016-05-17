@@ -3,3 +3,4 @@ __pycache__
 secrets.py
 shrutiwedsmohit/secrets/*
 deploy_tools/*
+*.DS_Store
