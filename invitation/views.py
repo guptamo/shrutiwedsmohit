@@ -63,7 +63,7 @@ def dashboard(request):
         "Meal Choices",
         food.filter(meal_choice="veg").count(),
         food.filter(meal_choice="non-veg").count(),
-        food.filter(meal_choice=None).count()
+        food.filter(meal_choice="").count()
     )
 
     stats = (gupta, verma, total)
