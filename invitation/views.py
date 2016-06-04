@@ -21,42 +21,54 @@ def dashboard(request):
     gupta = (
         "Gupta Family",
         responded.filter(
-                attending_sangeet=True, invitation__invited_by="gupta"
-            ).count(),
-            responded.filter(
-                attending_ceremony=True, invitation__invited_by="gupta"
-            ).count(),
-            responded.filter(
-                attending_reception=True, invitation__invited_by="gupta"
-            ).count(),
-        guests.filter(invitation__invited_by="gupta").count(),
+            attending_sangeet=True, invitation__invited_by="gupta"
+        ).count(),
         guests.filter(
-                invitation__invited_by="gupta", invitation__rsvp=True
-            ).count()
+            invitation__invited_sangeet=True, invitation__invited_by="gupta"
+        ).count(),
+        responded.filter(
+            attending_ceremony=True, invitation__invited_by="gupta"
+        ).count(),
+        guests.filter(
+            invitation__invited_ceremony=True, invitation__invited_by="gupta"
+        ).count(),
+        responded.filter(
+            attending_reception=True, invitation__invited_by="gupta"
+        ).count(),
+        guests.filter(
+            invitation__invited_reception=True, invitation__invited_by="gupta"
+        ).count(),
     )
     verma = (
         "Verma Family",
         responded.filter(
-                attending_sangeet=True, invitation__invited_by="verma"
-            ).count(),
-        responded.filter(
-                attending_ceremony=True, invitation__invited_by="verma"
-            ).count(),
-        responded.filter(
-                attending_reception=True, invitation__invited_by="verma"
-            ).count(),
-        guests.filter(invitation__invited_by="verma").count(),
+            attending_sangeet=True, invitation__invited_by="verma"
+        ).count(),
         guests.filter(
-                invitation__invited_by="verma", invitation__rsvp=True
-            ).count()
+            invitation__invited_sangeet=True, invitation__invited_by="verma"
+        ).count(),
+        responded.filter(
+            attending_ceremony=True, invitation__invited_by="verma"
+        ).count(),
+        guests.filter(
+            invitation__invited_ceremony=True, invitation__invited_by="verma"
+        ).count(),
+        responded.filter(
+            attending_reception=True, invitation__invited_by="verma"
+        ).count(),
+        guests.filter(
+            invitation__invited_reception=True, invitation__invited_by="verma"
+        ).count(),
     )
     total = (
         "Total",
         gupta[1] + verma[1],
         gupta[2] + verma[2],
         gupta[3] + verma[3],
-        guests.count(),
-        guests.filter(invitation__rsvp=True).count()
+        gupta[4] + verma[4],
+        gupta[5] + verma[5],
+        gupta[6] + verma[6],
+
     )
 
     meals = (
@@ -74,6 +86,36 @@ def dashboard(request):
         Q(attending_reception=True)
     )
 
+    response_counts = (
+        guests.filter(
+            invitation__invited_sangeet=True, attending_sangeet=True, invitation__rsvp=True
+        ).count(),
+        guests.filter(
+            invitation__invited_sangeet=True, attending_sangeet=False, invitation__rsvp=True
+        ).count(),
+        guests.filter(
+            invitation__invited_sangeet=True, invitation__rsvp=False
+        ).count(),
+        guests.filter(
+            invitation__invited_ceremony=True, attending_ceremony=True, invitation__rsvp=True
+        ).count(),
+        guests.filter(
+            invitation__invited_ceremony=True, attending_ceremony=False, invitation__rsvp=True
+        ).count(),
+        guests.filter(
+            invitation__invited_ceremony=True, invitation__rsvp=False
+        ).count(),
+        guests.filter(
+            invitation__invited_reception=True, attending_reception=True, invitation__rsvp=True
+        ).count(),
+        guests.filter(
+            invitation__invited_reception=True, attending_reception=False, invitation__rsvp=True
+        ).count(),
+        guests.filter(
+            invitation__invited_reception=True, invitation__rsvp=False
+        ).count(),
+    )
+
     lizts = (
         attendance,
         invitations,
@@ -85,6 +127,7 @@ def dashboard(request):
         "stats": stats,
         "meals": meals,
         "lizts": lizts,
+        "response_counts": response_counts,
 
     }
     return render(request, "invitation/dashboard.html", context)

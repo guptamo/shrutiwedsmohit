@@ -81,34 +81,27 @@
                 <h4>Stats</h4>
                 <div class="divider"></div>
                 {% if stats %}
-                    <table class="highlight responsive-table">
+                    <table class="highlight responsive-table centered">
                         <thead>
                             <tr>
-                                <td></td>
-                                <td colspan=3 class="center">Attending</td>
-                                <td colspan=2 class="center">Invited</td>
+                              <td class="center-align">Attending / <span>Invited</span></td>
+                              <td class="center-align">Sangeet</td>
+                              <td class="center-align">Ceremony</td>
+                              <td class="center-align">Reception</td>
                             </tr>
-                            <td></td>
-                            <td>Sangeet</td>
-                            <td>Ceremony</td>
-                            <td>Reception</td>
-                            <td>Guest</td>
-                            <td>RSVP</td>
                         </thead>
                         <tbody>
-                            {% for name, sangeet, ceremony, reception, guests, rsvp in  stats %}
+                            {% for name, sangeetA, sangeetI, ceremonyA, ceremonyI, receptionA, receptionI in  stats %}
                                 <tr>
                                     <td>{{ name }}</td>
-                                    <td>{{ sangeet }}</td>
-                                    <td>{{ ceremony }}</td>
-                                    <td>{{ reception }}</td>
-                                    <td>{{ guests }}</td>
-                                    <td>{{ rsvp }}</td>
+                                    <td>{{ sangeetA }} / <span>{{ sangeetI }}</span></td>
+                                    <td>{{ ceremonyA }} / <span>{{ ceremonyI }}</span></td>
+                                    <td>{{ receptionA }} / <span>{{ receptionI }}</span></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
-                    <table class="responsive">
+                    <table class="responsive centered">
                         <thead>
                             <td></td>
                             <td>Veg</td>
@@ -140,6 +133,22 @@
                 </ul>
             </div>
             <div id="attendees" class="col s12">
+                <table class="responsive centered">
+                    <thead>
+                        <td class="center-align"><span class="green-text">Yes</span> / <span class="red-text">No</span> / No Response</td>
+                        <td class="center-align">Sangeet</td>
+                        <td class="center-align">Ceremony</td>
+                        <td class="center-align">Reception</td>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Guests Responded</td>
+                            <td><span class="green-text">{{ response_counts.0 }}</span> / <span class="red-text">{{ response_counts.1 }}</span> / {{ response_counts.2 }}</td>
+                            <td><span class="green-text">{{ response_counts.3 }}</span> / <span class="red-text">{{ response_counts.4 }}</span> / {{ response_counts.5 }}</td>
+                            <td><span class="green-text">{{ response_counts.6 }}</span> / <span class="red-text">{{ response_counts.7 }}</span> / {{ response_counts.8 }}</td>
+                        </tr>
+                    </tbody>
+                </table>
                 <input type="text" id="attendee-search" placeholder="Search invitations">
                 <table class="highlight responsive-table">
                     <thead class="center-align">

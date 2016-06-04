@@ -146,3 +146,8 @@ img.deco {
 .extra-bottom-margin{
     margin-bottom: 2rem;
 }
+
+table span{
+  color: Grey;
+
+}
